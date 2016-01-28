@@ -36,9 +36,8 @@ public class Shooter extends PIDSubsystem {
     private final Encoder shooterEncoder = RobotMap.shootershooterEncoder;
     private final SpeedController shooter = RobotMap.shootershooter;
     public Shooter() {
-    	super("Shooter", 0.5, 0.0, 0.0, 0.5);
-    	
-    	
+    	//keep this at 0 for now - mr.Riccardi
+    	super("Shooter", 0.0, 0.0, 0.0, 0.5);
     	shooterEncoder.setPIDSourceType(PIDSourceType.kRate);
     	setAbsoluteTolerance(0.1);
     	getPIDController().setContinuous(false); 
@@ -87,7 +86,7 @@ public class Shooter extends PIDSubsystem {
 		// TODO Auto-generated method stub
 		System.out.println("hello" + output);
 		//shooter.set(0.5);
-		shooter.pidWrite(output);
+		shooter.pidWrite(output + 0.5);
 	}
 }
 

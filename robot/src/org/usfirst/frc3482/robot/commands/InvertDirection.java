@@ -41,6 +41,8 @@ public class InvertDirection extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	//later on want to change joystick axes
+    	// not this, but keep this for now
     	Robot.chassis.invertMotors();
     }
 

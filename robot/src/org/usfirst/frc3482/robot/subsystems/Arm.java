@@ -72,5 +72,35 @@ public class Arm extends Subsystem {
     public void stopLowerJoint() {
     	lowerJoint.set(0.0);
     } 
+    
+    public void spinTopToLocation(int desiredLoc, int delta) {
+    	int initialLoc = upperJointEncoder.get();
+    	if (initialLoc > desiredLoc) {
+    		upperJoint.set(0.2);
+    	} else if(initialLoc < desiredLoc){
+    		upperJoint.set(-0.2);
+    	}
+    	while(true) {
+    		int currentLoc = upperJointEncoder.get();
+    		if (Math.abs(currentLoc-desiredLoc) <= delta) {
+    			break;
+    		}
+    	}
+    }
+    
+    public void spinBottomToLocation(int desiredLoc, int delta) {
+    	int initialLoc = lowerJointEncoder.get();
+    	if (initialLoc > desiredLoc) {
+    		lowerJoint.set(0.2);
+    	} else if(initialLoc < desiredLoc){
+    		lowerJoint.set(-0.2);
+    	}
+    	while(true) {
+    		int currentLoc = lowerJointEncoder.get();
+    		if (Math.abs(currentLoc-desiredLoc) <= delta) {
+    			break;
+    		}
+    	}
+    }
 }
 
