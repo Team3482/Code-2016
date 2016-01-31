@@ -41,6 +41,8 @@ public class Drive extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	System.out.println("Driving");
+    	Robot.chassis.driveWithXboxController(Robot.oi.getxboxController());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -50,6 +52,8 @@ public class Drive extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	System.out.println("Drive ending");
+    	Robot.chassis.stop();
     }
 
     // Called when another command which requires one or more of the same

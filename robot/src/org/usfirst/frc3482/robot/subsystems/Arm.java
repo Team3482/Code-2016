@@ -83,6 +83,7 @@ public class Arm extends Subsystem {
     	while(true) {
     		int currentLoc = upperJointEncoder.get();
     		if (Math.abs(currentLoc-desiredLoc) <= delta) {
+    			upperJoint.set(0.0);
     			break;
     		}
     	}
@@ -98,9 +99,10 @@ public class Arm extends Subsystem {
     	while(true) {
     		int currentLoc = lowerJointEncoder.get();
     		if (Math.abs(currentLoc-desiredLoc) <= delta) {
+    			lowerJoint.set(0.0);
     			break;
     		}
     	}
     }
-}
+} 
 

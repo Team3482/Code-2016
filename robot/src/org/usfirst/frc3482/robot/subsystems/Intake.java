@@ -71,13 +71,14 @@ public class Intake extends Subsystem {
     public void spinToLocation(int desiredLoc, int delta) {
     	int initialLoc = intakeEncoder.get();
     	if (initialLoc > desiredLoc) {
-    		intake.set(0.3);
+    		intake.set(0.2);
     	} else if(initialLoc < desiredLoc){
-    		intake.set(-0.3);
+    		intake.set(-0.2);
     	}
     	while(true) {
     		int currentLoc = intakeEncoder.get();
-    		if (Math.abs(currentLoc-desiredLoc) < delta) {
+    		if (Math.abs(currentLoc-desiredLoc) <= delta) {
+    			intake.set(0.0);
     			break;
     		}
     	}

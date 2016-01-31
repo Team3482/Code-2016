@@ -41,7 +41,7 @@ public class RobotMap {
     public static CANTalon chassisbackRight;
     public static RobotDrive chassisRobotDrive41;
     public static Encoder shootershooterEncoder;
-    public static SpeedController shootershooter;
+    public static CANTalon shootershooter;
     public static SpeedController armlowerJoint;
     public static Encoder armlowerJointEncoder;
     public static Encoder armupperJointEncoder;
@@ -84,10 +84,10 @@ public class RobotMap {
         chassisRobotDrive41.setExpiration(0.1);
         chassisRobotDrive41.setSensitivity(0.5);
         chassisRobotDrive41.setMaxOutput(1.0);
-
+        //encoder DPP values are subject to change
         shootershooterEncoder = new Encoder(0, 1, false, EncodingType.k4X);
         LiveWindow.addSensor("Shooter", "shooterEncoder", shootershooterEncoder);
-        shootershooterEncoder.setDistancePerPulse(0.000694444444);
+        shootershooterEncoder.setDistancePerPulse(0.004);
         shootershooterEncoder.setPIDSourceType(PIDSourceType.kRate);
         shootershooter = new CANTalon(1);
         LiveWindow.addActuator("Shooter", "shooter", (CANTalon) shootershooter);
@@ -97,18 +97,18 @@ public class RobotMap {
         
         armlowerJointEncoder = new Encoder(4, 5, false, EncodingType.k4X);
         LiveWindow.addSensor("Arm", "lowerJointEncoder", armlowerJointEncoder);
-        armlowerJointEncoder.setDistancePerPulse(0.000694444444);
+        armlowerJointEncoder.setDistancePerPulse(0.004);
         armlowerJointEncoder.setPIDSourceType(PIDSourceType.kRate);
         armupperJointEncoder = new Encoder(6, 7, false, EncodingType.k4X);
         LiveWindow.addSensor("Arm", "upperJointEncoder", armupperJointEncoder);
-        armupperJointEncoder.setDistancePerPulse(0.000694444444);
+        armupperJointEncoder.setDistancePerPulse(0.004);
         armupperJointEncoder.setPIDSourceType(PIDSourceType.kRate);
         armupperJoint = new CANTalon(3);
         LiveWindow.addActuator("Arm", "upperJoint", (CANTalon) armupperJoint);
         
         intakeintakeEncoder = new Encoder(2, 3, false, EncodingType.k4X);
         LiveWindow.addSensor("Intake", "intakeEncoder", intakeintakeEncoder);
-        intakeintakeEncoder.setDistancePerPulse(0.000694444444);
+        intakeintakeEncoder.setDistancePerPulse(0.004);
         intakeintakeEncoder.setPIDSourceType(PIDSourceType.kRate);
         intake = new CANTalon(0);
         LiveWindow.addActuator("Intake", "intake", (CANTalon) intake);
