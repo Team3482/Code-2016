@@ -125,7 +125,8 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         //new Drive();
-        Robot.chassis.driveWithXboxController(Robot.oi.getxboxController());
+        Robot.arm.runWithXboxController(Robot.oi.getxboxController());
+        //Robot.chassis.driveWithXboxController(Robot.oi.getxboxController());
         //Robot.intake.runWithXboxController(Robot.oi.getxboxController());
         //System.out.println("Intake Encoder Position: " + Robot.intake.getEncoderPosition());
 //        Robot.arm.runWithXboxController(Robot.oi.getxboxController());
