@@ -103,6 +103,8 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
+        //Robot.intake.runWheels();
+        //Robot.shooter.startSpinning();
         /*shooter.enable();
         Timer.delay(5);
         shooter.disable();
@@ -119,11 +121,17 @@ public class Robot extends IterativeRobot {
     /**
      * This function is called periodically during operator control
      */
-    int i = 0;
+    //int i = 0;
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         //new Drive();
         Robot.chassis.driveWithXboxController(Robot.oi.getxboxController());
+        //Robot.intake.runWithXboxController(Robot.oi.getxboxController());
+        //System.out.println("Intake Encoder Position: " + Robot.intake.getEncoderPosition());
+//        Robot.arm.runWithXboxController(Robot.oi.getxboxController());
+//        System.out.println("LOWER: " + Robot.arm.getLowerJointEncoderPosition());
+//        System.out.println("UPPER: " + Robot.arm.getUpperJointEncoderPosition());
+//        
         //System.out.println(Robot.shooter.getEncoderRate());
 //        if(i == 500) {
 //        	Robot.chassis.invertMotors();

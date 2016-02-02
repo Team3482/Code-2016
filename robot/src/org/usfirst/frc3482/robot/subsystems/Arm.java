@@ -15,6 +15,7 @@ import org.usfirst.frc3482.robot.RobotMap;
 import org.usfirst.frc3482.robot.commands.*;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.TalonSRX;
@@ -55,6 +56,14 @@ public class Arm extends Subsystem {
     
     public void spinLowerJointForward() {
     	lowerJoint.set(0.5);
+    }
+    
+    public int getLowerJointEncoderPosition() {
+    	return lowerJointEncoder.get();
+    }
+    
+    public int getUpperJointEncoderPosition() {
+    	return upperJointEncoder.get();
     }
     
     public void spinUpperJointBackward() {
@@ -104,5 +113,30 @@ public class Arm extends Subsystem {
     		}
     	}
     }
+    
+    public void runWithXboxController(Joystick s) {
+		double leftY = s.getRawAxis(1);
+		double rightY = s.getRawAxis(5);
+		//sensitivity /= 100;
+		double deadZone = 0.1;
+
+//		if (leftY < deadZone && leftY > -deadZone) {
+//			leftY = 0;
+//		}
+//		
+		if (rightY < deadZone && rightY > -deadZone) {
+			rightY = 0;
+		}
+		lowerJoint.set(leftY/3);
+		upperJoint.set(rightY/3);
+		//rightX *= sensitivity;
+		//speedController1.set(leftY);
+		//speedController2.set(rightY);
+		/*if (leftY < -0.2) {
+			Robot.clamp.extend();
+			//Timer.delay(1);
+		}*/
+	}
+    
 } 
 
