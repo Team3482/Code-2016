@@ -70,6 +70,14 @@ public class Arm extends Subsystem {
     	upperJoint.set(-0.5);
     }
     
+    public void spinLowerJointAtSpeed(double speed) {
+    	lowerJoint.set(speed);
+    }
+    
+    public void spinUpperJointAtSpeed(double speed) {
+    	upperJoint.set(speed);
+    }
+    
     public void spinLowerJointBackward() {
     	lowerJoint.set(-0.5);
     }

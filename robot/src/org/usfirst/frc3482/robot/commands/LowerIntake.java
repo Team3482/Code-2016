@@ -43,7 +43,7 @@ public class LowerIntake extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.intake.spinToLocation(125, 0); //set at 125 for now but encoders will be different and maybe not 250
+    	//Robot.intake.s //set at 125 for now but encoders will be different and maybe not 250
     	
     }
 

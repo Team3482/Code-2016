@@ -67,6 +67,10 @@ public class Intake extends Subsystem {
     	intake.set(1.0);
     }
     
+    public void spinIntake(double speed) {
+    	intake.set(speed);
+    }
+    
     public void stopWheels() {
     	wheels.set(0.0);
     }
