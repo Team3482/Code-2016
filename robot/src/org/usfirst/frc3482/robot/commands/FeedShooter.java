@@ -12,12 +12,16 @@ public class FeedShooter extends Command {
 	boolean direction;
     public FeedShooter() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.chassis);
-        requires(Robot.shooter);
+    	//very strange but does not work at same time (shooter and intake) if not commented out
+        //requires(Robot.chassis);
+        //requires(Robot.shooter);
         direction = true;
     }
     
     public FeedShooter(boolean direction) {
+    	//very strange but does not work at same time (shooter and intake) if not commented out
+    	//requires(Robot.chassis);
+        //requires(Robot.shooter);
     	this.direction = direction;
     }
 
