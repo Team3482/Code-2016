@@ -32,9 +32,9 @@ public class FeedShooter extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	if (direction) 
-    		Robot.shooter.startShooterFeed();
+    		Robot.intake.startFeed();
     	else
-    		Robot.shooter.reverseShooterFeed();
+    		Robot.intake.reverseFeed();
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -44,7 +44,7 @@ public class FeedShooter extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.shooter.stopShooterFeed();
+    	Robot.intake.stopFeed();
     }
 
     // Called when another command which requires one or more of the same

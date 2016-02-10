@@ -39,12 +39,11 @@ public class LowerIntake extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.intake.setTargetLower();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	//Robot.intake.s //set at 125 for now but encoders will be different and maybe not 250
-    	
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -54,10 +53,12 @@ public class LowerIntake extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.intake.setTargetRest();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+    	end();
     }
 }
