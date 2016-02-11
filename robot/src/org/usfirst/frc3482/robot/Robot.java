@@ -117,7 +117,8 @@ public class Robot extends IterativeRobot {
         
         //Robot.intake.maintainPosition();
         Robot.chassis.driveWithXboxController(Robot.oi.getxboxController());
-        Robot.intake.maintainPosition();
+        //Robot.intake.maintainPosition();
+        Robot.arm.maintainPosition();
     }
 
     /**

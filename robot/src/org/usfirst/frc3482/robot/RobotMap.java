@@ -45,10 +45,10 @@ public class RobotMap {
     public static RobotDrive chassisRobotDrive41;
     public static Encoder shootershooterEncoder;
     public static CANTalon shootershooter;
-    public static SpeedController armlowerJoint;
+    public static CANTalon armlowerJoint;
     public static Encoder armlowerJointEncoder;
     public static Encoder armupperJointEncoder;
-    public static SpeedController armupperJoint;
+    public static CANTalon armupperJoint;
     public static Encoder intakeintakeEncoder;
     public static CANTalon intake;
     public static SpeedController wheels;
@@ -88,46 +88,17 @@ public class RobotMap {
         chassisRobotDrive41.setExpiration(0.1);
         chassisRobotDrive41.setSensitivity(0.5);
         chassisRobotDrive41.setMaxOutput(1.0);
-        //encoder DPP values are subject to change
-        shootershooterEncoder = new Encoder(8, 9, false, EncodingType.k4X);
-        LiveWindow.addSensor("Shooter", "shooterEncoder", shootershooterEncoder);
-        shootershooterEncoder.setDistancePerPulse(0.004);
-        shootershooterEncoder.setPIDSourceType(PIDSourceType.kRate);
+
         shootershooter = new CANTalon(4);
         LiveWindow.addActuator("Shooter", "shooter", (CANTalon) shootershooter);
         
-        shootershooter.setFeedbackDevice(FeedbackDevice.CtreMagEncoder_Relative); //vex ctr is 12834.1333 native units per 100ms
-        shootershooter.reverseSensor(false);
-        //motor.configEncoderCodesPerRev(codesPerRev); //only for quad
         
-        shootershooter.configNominalOutputVoltage(+0.0f, -0.0f);
-        shootershooter.configPeakOutputVoltage(+12.0f, -0.0f);
-        
-        shootershooter.setProfile(0);
-        shootershooter.setF(.0797); //vex ctr
-        shootershooter.setP(.113333);
-        shootershooter.setI(0);
-        shootershooter.setD(0);
-        
-        
-        armlowerJoint = new TalonSRX(0);
-        LiveWindow.addActuator("Arm", "lowerJoint", (TalonSRX) armlowerJoint);
-        
-        armlowerJointEncoder = new Encoder(6, 7, false, EncodingType.k4X);
-        LiveWindow.addSensor("Arm", "lowerJointEncoder", armlowerJointEncoder);
-        armlowerJointEncoder.setDistancePerPulse(0.004);
-        armlowerJointEncoder.setPIDSourceType(PIDSourceType.kRate);
-        armupperJointEncoder = new Encoder(4, 5, false, EncodingType.k4X);
-        LiveWindow.addSensor("Arm", "upperJointEncoder", armupperJointEncoder);
-        armupperJointEncoder.setDistancePerPulse(0.004);
-        armupperJointEncoder.setPIDSourceType(PIDSourceType.kRate);
-        armupperJoint = new TalonSRX(1);
-        LiveWindow.addActuator("Arm", "upperJoint", (TalonSRX) armupperJoint);
-        
-        intakeintakeEncoder = new Encoder(10, 11, false, EncodingType.k4X);
-        LiveWindow.addSensor("Intake", "intakeEncoder", intakeintakeEncoder);
-        intakeintakeEncoder.setDistancePerPulse(0.004);
-        intakeintakeEncoder.setPIDSourceType(PIDSourceType.kRate);
+        armlowerJoint = new CANTalon(6);
+        LiveWindow.addActuator("Arm", "lowerJoint", (CANTalon) armlowerJoint);
+ 
+        armupperJoint = new CANTalon(7);
+        LiveWindow.addActuator("Arm", "upperJoint", (CANTalon) armupperJoint);
+
         intake = new CANTalon(5);
         LiveWindow.addActuator("Intake", "intake", (CANTalon) intake);
         wheels = new TalonSRX(2);
