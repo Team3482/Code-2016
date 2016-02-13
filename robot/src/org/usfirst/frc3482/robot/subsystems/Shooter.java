@@ -11,10 +11,12 @@
 
 package org.usfirst.frc3482.robot.subsystems;
 
+import org.usfirst.frc3482.robot.Robot;
 import org.usfirst.frc3482.robot.RobotMap;
 import org.usfirst.frc3482.robot.commands.*;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.SpeedController;

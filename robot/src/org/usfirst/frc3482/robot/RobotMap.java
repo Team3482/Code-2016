@@ -93,7 +93,7 @@ public class RobotMap {
         LiveWindow.addActuator("Shooter", "shooter", (CANTalon) shootershooter);
         
         
-        armlowerJoint = new CANTalon(6);
+        armlowerJoint = new CANTalon(6); 
         LiveWindow.addActuator("Arm", "lowerJoint", (CANTalon) armlowerJoint);
  
         armupperJoint = new CANTalon(7);
@@ -103,7 +103,7 @@ public class RobotMap {
         LiveWindow.addActuator("Intake", "intake", (CANTalon) intake);
         wheels = new TalonSRX(2);
         LiveWindow.addActuator("Intake", "intake", (TalonSRX) wheels);
-        intakeFeed = new Relay(1);
+        intakeFeed = new Relay(0);
         LiveWindow.addActuator("Intake", "intake", (Relay) intakeFeed);
         
 

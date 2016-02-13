@@ -11,6 +11,7 @@
 
 package org.usfirst.frc3482.robot.subsystems;
 
+import org.usfirst.frc3482.robot.Robot;
 import org.usfirst.frc3482.robot.RobotMap;
 import org.usfirst.frc3482.robot.commands.*;
 
@@ -18,6 +19,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
+import edu.wpi.first.wpilibj.Joystick.AxisType;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PIDSourceType;
@@ -47,10 +49,11 @@ public class Intake extends Subsystem {
     
 	StringBuilder sb = new StringBuilder();
 	int loops = 0;
-	final double lowerPosition = .985;
-	final double restPosition = 1.494;
+	final double lowerPosition = -14.4;
+	final double restPosition = -2;
 	double targetPositionRotations;
-    
+    boolean isPID = true;
+	
     public Intake() {
         targetPositionRotations = restPosition;
         
@@ -66,7 +69,7 @@ public class Intake extends Subsystem {
         intake.setAllowableClosedLoopErr(0);
         intake.setProfile(0);
         intake.setF(0.0);
-        intake.setP(0.3);
+        intake.setP(0.03);
         intake.setI(0.0); 
         intake.setD(0.0);
         
@@ -100,6 +103,14 @@ public class Intake extends Subsystem {
     	targetPositionRotations = lowerPosition;
     }
     
+    public void stopPID() {
+    	isPID = false;
+    }
+    
+    public void startPID() {
+    	isPID = true;
+    }
+    
     public void setTargetRest() {
     	targetPositionRotations = restPosition;
     }
@@ -108,13 +119,26 @@ public class Intake extends Subsystem {
     	wheels.set(1.0);
     }
     
+    public void runWheelsBackward() {
+    	wheels.set(-1.0);
+    }
+    
     public void spinIntake() {
     	intake.set(1.0);
+    }
+    
+    public boolean isPIDOn() {
+    	return isPID;
     }
     
     public void spinIntake(double speed) {
     	intake.set(speed);
     }
+    
+    public void runWithXboxController(Joystick s) {
+		double y = s.getAxis(AxisType.kY);
+		intake.set(y);
+	}
     
     public void stopWheels() {
     	wheels.set(0.0);
@@ -140,5 +164,6 @@ public class Intake extends Subsystem {
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
 	}
+
 }
 
