@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.CANTalon;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.Joystick.AxisType;
+import edu.wpi.first.wpilibj.Joystick.RumbleType;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -81,7 +82,7 @@ public class Robot extends IterativeRobot {
      * You can use it to reset subsystems before shutting down.
      */
     public void disabledInit(){
-
+    	
     }
 
     public void disabledPeriodic() {
@@ -115,8 +116,8 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         Robot.chassis.driveWithXboxController(Robot.oi.getxboxController());
-        if (Robot.intake.isPIDOn())
-        	Robot.intake.maintainPosition();
+        Robot.intake.maintainPosition();
+        Robot.shooter.setControllerRumble();
         //Robot.arm.maintainPosition();
     }
 

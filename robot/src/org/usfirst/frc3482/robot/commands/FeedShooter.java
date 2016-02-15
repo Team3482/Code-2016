@@ -34,7 +34,7 @@ public class FeedShooter extends Command {
 	protected void execute() {
 		if (direction) { 
 			Robot.intake.startFeed();
-			Robot.intake.runWheels();
+			//Robot.intake.runWheels();
 		} else {
 			Robot.intake.runWheelsBackward();
 			Robot.intake.reverseFeed();

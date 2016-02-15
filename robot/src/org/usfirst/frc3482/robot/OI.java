@@ -94,7 +94,7 @@ public class OI {
         invertDirectionButton.whileHeld(new InvertDirection());
         forwardFeedButton = new JoystickButton(joystick, 1);
         forwardFeedButton.whileHeld(new FeedShooter());
-        reverseFeedButton = new JoystickButton(joystick, 8);
+        reverseFeedButton = new JoystickButton(joystick, 3);
         reverseFeedButton.whileHeld(new FeedShooter(false));
         lowerIntakeButton = new JoystickButton(joystick, 7);
         lowerIntakeButton.toggleWhenPressed(new LowerIntake());

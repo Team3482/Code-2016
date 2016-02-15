@@ -43,7 +43,6 @@ public class MoveIntake extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.arm.stopUpperJoint();
     	Robot.intake.startPID();
     }
 

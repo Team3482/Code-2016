@@ -72,7 +72,7 @@ public class RobotMap {
         chassisfrontLeft = new CANTalon(0);
         LiveWindow.addActuator("Chassis", "frontLeft", chassisfrontLeft);
         
-        chassisbackLeft = new CANTalon(1);
+        chassisbackLeft = new CANTalon(8);
         LiveWindow.addActuator("Chassis", "backLeft", chassisbackLeft);
         
         chassisfrontRight = new CANTalon(2);
@@ -93,16 +93,16 @@ public class RobotMap {
         LiveWindow.addActuator("Shooter", "shooter", (CANTalon) shootershooter);
         
         
-        armlowerJoint = new CANTalon(6); 
+        armlowerJoint = new CANTalon(1); 
         LiveWindow.addActuator("Arm", "lowerJoint", (CANTalon) armlowerJoint);
  
-        armupperJoint = new CANTalon(7);
+        armupperJoint = new CANTalon(6);
         LiveWindow.addActuator("Arm", "upperJoint", (CANTalon) armupperJoint);
 
         intake = new CANTalon(5);
         LiveWindow.addActuator("Intake", "intake", (CANTalon) intake);
-        wheels = new TalonSRX(2);
-        LiveWindow.addActuator("Intake", "intake", (TalonSRX) wheels);
+        wheels = new CANTalon(7);
+        LiveWindow.addActuator("Intake", "intake", (CANTalon) wheels);
         intakeFeed = new Relay(0);
         LiveWindow.addActuator("Intake", "intake", (Relay) intakeFeed);
         

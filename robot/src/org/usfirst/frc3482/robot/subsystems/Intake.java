@@ -49,8 +49,8 @@ public class Intake extends Subsystem {
     
 	StringBuilder sb = new StringBuilder();
 	int loops = 0;
-	final double lowerPosition = -14.4;
-	final double restPosition = -2;
+	final double lowerPosition = -14;
+	final double restPosition = -1;
 	double targetPositionRotations;
     boolean isPID = true;
 	
@@ -77,22 +77,24 @@ public class Intake extends Subsystem {
     }
     
     public void maintainPosition() {
-    	double motorOutput = intake.getOutputVoltage()/intake.getBusVoltage();
-    	sb.append("\tout:");
-	  	sb.append(motorOutput);
-	  	sb.append("\tpos:");
-        sb.append(intake.getPosition() );
-        intake.changeControlMode(TalonControlMode.Position);
-    	intake.set(targetPositionRotations);
-    	sb.append("\terrNative:");
-    	sb.append(intake.getClosedLoopError());
-    	sb.append("\ttrg:");
-    	sb.append(targetPositionRotations);
-    	if(++loops >= 10) {
-          	loops = 0;
-          	System.out.println(sb.toString());
-        }
-        sb.setLength(0);
+    	if (isPID) { 
+	    	double motorOutput = intake.getOutputVoltage()/intake.getBusVoltage();
+	    	sb.append("\tout:");
+		  	sb.append(motorOutput);
+		  	sb.append("\tpos:");
+	        sb.append(intake.getPosition() );
+	        intake.changeControlMode(TalonControlMode.Position);
+	    	intake.set(targetPositionRotations);
+	    	sb.append("\terrNative:");
+	    	sb.append(intake.getClosedLoopError());
+	    	sb.append("\ttrg:");
+	    	sb.append(targetPositionRotations);
+	    	if(++loops >= 10) {
+	          	loops = 0;
+	          	System.out.println(sb.toString());
+	        }
+	        sb.setLength(0);
+    	}
     }
     
     public void setTargetPositionRotations (double target) {
@@ -136,7 +138,8 @@ public class Intake extends Subsystem {
     }
     
     public void runWithXboxController(Joystick s) {
-		double y = s.getAxis(AxisType.kY);
+		double y = s.getAxis(AxisType.kY); 
+		intake.changeControlMode(TalonControlMode.PercentVbus);
 		intake.set(y);
 	}
     

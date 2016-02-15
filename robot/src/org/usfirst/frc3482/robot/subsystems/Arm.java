@@ -136,7 +136,7 @@ public class Arm extends Subsystem {
     
     public void runLowerJointWithXboxController(Joystick s) {
 		double y = s.getAxis(AxisType.kY);
-		lowerJoint.set(y);
+		lowerJoint.set(-y);
 	}
     
     public void runUpperJointWithXboxController(Joystick s) {
