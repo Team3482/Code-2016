@@ -35,7 +35,7 @@ public class ArmPositionBridge extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.arm.setTargetLower();
+    	//Robot.arm.setTargetLower();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -50,7 +50,7 @@ public class ArmPositionBridge extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
-    	Robot.arm.setTargetRest();
+    	//Robot.arm.setTargetRest();
     }
 
     // Called when another command which requires one or more of the same

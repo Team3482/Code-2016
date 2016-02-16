@@ -67,7 +67,10 @@ public class OI {
     public JoystickButton moveUpperJointButton;
     public JoystickButton moveLowerJointButton;
     public JoystickButton moveIntakeButton;
-    
+    public JoystickButton spinIntakeWheelsButton;
+    public JoystickButton runWheelsOnGroundButton;
+    public JoystickButton sallyPortButton;
+    public JoystickButton portcullisButton;
     
     public Joystick xboxController;
     public Joystick joystick;
@@ -88,10 +91,18 @@ public class OI {
         moveLowerJointButton.whileHeld(new MoveUpperJoint());
         moveIntakeButton = new JoystickButton(joystick, 6);
         moveIntakeButton.whileHeld(new MoveIntake());
+        spinIntakeWheelsButton = new JoystickButton(joystick, 4);
+        spinIntakeWheelsButton.whileHeld(new SpinIntakeWheels());
+        runWheelsOnGroundButton = new JoystickButton(joystick, 5);
+        runWheelsOnGroundButton.whileHeld(new RunWheelsOnGround());
+        sallyPortButton = new JoystickButton(joystick, 11);
+        sallyPortButton.whileHeld(new ArmPositionSallyPort());
+        portcullisButton = new JoystickButton(joystick, 12);
+        portcullisButton.whileHeld(new ArmPositionPortCullis());
         
         
         invertDirectionButton = new JoystickButton(xboxController, 5);
-        invertDirectionButton.whileHeld(new InvertDirection());
+        invertDirectionButton.whenPressed(new InvertDirection());
         forwardFeedButton = new JoystickButton(joystick, 1);
         forwardFeedButton.whileHeld(new FeedShooter());
         reverseFeedButton = new JoystickButton(joystick, 3);

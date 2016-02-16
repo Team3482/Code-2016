@@ -116,9 +116,10 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         Robot.chassis.driveWithXboxController(Robot.oi.getxboxController());
-        Robot.intake.maintainPosition();
-        Robot.shooter.setControllerRumble();
-        //Robot.arm.maintainPosition();
+        //Robot.intake.maintainPosition();
+        //Robot.shooter.setControllerRumble();
+        Robot.arm.maintainUpperJointPosition();
+        Robot.arm.maintainLowerJointPosition();
     }
 
     /**

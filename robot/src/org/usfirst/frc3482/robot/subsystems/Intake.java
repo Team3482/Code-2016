@@ -50,7 +50,8 @@ public class Intake extends Subsystem {
 	StringBuilder sb = new StringBuilder();
 	int loops = 0;
 	final double lowerPosition = -14;
-	final double restPosition = -1;
+	final double restPosition = 1.5;
+	final double portPosition = -20;
 	double targetPositionRotations;
     boolean isPID = true;
 	
@@ -105,6 +106,9 @@ public class Intake extends Subsystem {
     	targetPositionRotations = lowerPosition;
     }
     
+    public void setTargetPortcullis() {
+    	targetPositionRotations = portPosition;
+    }
     public void stopPID() {
     	isPID = false;
     }

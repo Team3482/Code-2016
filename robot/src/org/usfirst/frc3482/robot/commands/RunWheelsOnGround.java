@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class RunWheels extends Command {
+public class RunWheelsOnGround extends Command {
 
-    public RunWheels() {
+    public RunWheelsOnGround() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.chassis);
@@ -18,11 +18,14 @@ public class RunWheels extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.intake.stopPID();
+    	Robot.intake.runWheels();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.intake.runWheels();
+    	System.out.println("Running");
+    	Robot.intake.runWithXboxController(Robot.oi.getxboxController());
     }
 
     // Make this return true when this Command no longer needs to run execute()
@@ -33,6 +36,8 @@ public class RunWheels extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	Robot.intake.stopWheels();
+    	Robot.intake.stopIntake();
+    	Robot.intake.startPID();
     }
 
     // Called when another command which requires one or more of the same

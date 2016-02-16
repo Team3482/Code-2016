@@ -44,6 +44,7 @@ public class MoveLowerJoint extends Command {
     
     // Called just before this Command runs the first time
     protected void initialize() {
+    	Robot.arm.stopLowerPID();
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -58,6 +59,8 @@ public class MoveLowerJoint extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	//Robot.arm.stopLowerJoint();
+    	Robot.arm.startLowerPID();
     	Robot.arm.stopLowerJoint();
     }
 
