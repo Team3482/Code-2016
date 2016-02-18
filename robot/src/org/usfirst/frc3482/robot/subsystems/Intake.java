@@ -49,9 +49,9 @@ public class Intake extends Subsystem {
     
 	StringBuilder sb = new StringBuilder();
 	int loops = 0;
-	final double lowerPosition = -14;
-	final double restPosition = 1.5;
-	final double portPosition = -20;
+	final double lowerPosition = -35.247; //-14
+	final double restPosition = -.811; //1.5
+	final double portPosition = -51.303; //-20
 	double targetPositionRotations;
     boolean isPID = true;
 	
@@ -71,7 +71,7 @@ public class Intake extends Subsystem {
         intake.setProfile(0);
         intake.setF(0.0);
         intake.setP(0.03);
-        intake.setI(0.0); 
+        intake.setI(0.0);
         intake.setD(0.0);
         
         //intake.changeControlMode(TalonControlMode.Position);
@@ -80,6 +80,7 @@ public class Intake extends Subsystem {
     public void maintainPosition() {
     	if (isPID) { 
 	    	double motorOutput = intake.getOutputVoltage()/intake.getBusVoltage();
+	    	sb.append("Intake:");
 	    	sb.append("\tout:");
 		  	sb.append(motorOutput);
 		  	sb.append("\tpos:");

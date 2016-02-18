@@ -71,6 +71,7 @@ public class OI {
     public JoystickButton runWheelsOnGroundButton;
     public JoystickButton sallyPortButton;
     public JoystickButton portcullisButton;
+    public JoystickButton armRestButton;
     public JoystickButton climberButton;
     public JoystickButton extendClimberButton;
     
@@ -101,11 +102,13 @@ public class OI {
         sallyPortButton.whileHeld(new ArmPositionSallyPort());
         portcullisButton = new JoystickButton(joystick, 12);
         portcullisButton.whileHeld(new ArmPositionPortCullis());
+        armRestButton = new JoystickButton(joystick, 8);
+        armRestButton.whenPressed(new ArmPositionRest());
         
-        climberButton = new JoystickButton(joystick, 7);
-        climberButton.whileHeld(new ClimbUp());
-        extendClimberButton = new JoystickButton(joystick, 8);
-        extendClimberButton.whileHeld(new ExtendClimber());
+        //climberButton = new JoystickButton(joystick, 7);
+        //climberButton.whileHeld(new ClimbUp());
+        //extendClimberButton = new JoystickButton(joystick, 8);
+        //extendClimberButton.whileHeld(new ExtendClimber());
         
         
         invertDirectionButton = new JoystickButton(xboxController, 5);
