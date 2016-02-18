@@ -43,20 +43,24 @@ public class Arm extends Subsystem {
     StringBuilder sb = new StringBuilder();
 	int loopsL = 0;
 	int loopsU = 0;
-	final double lowerPosition = 0.270; //.272
-	final double upperPosition = 0.526; //.592
 	final double lowerRestPosition = 0;
 	final double upperRestPosition = 0;
-	final double upperHomePosition = .938; //3
-	double targetLowerJointPositionRotations;
-	double targetUpperJointPositionRotations;
+	final double upperHomePosition = .938;
+	final double sallyLowerPosition = 0.270;
+	final double sallyUpperPosition = 0.526;
+	final double drawReachLowerPosition = .382;
+	final double drawReachUpperPosition = .214;
+	final double drawPressLowerPosition = .463;
+	final double drawPressUpperPosition = 1.274;
 	
+	double targetLowerPositionRotations;
+	double targetUpperPositionRotations;
     boolean isUpperPID = true;
     boolean isLowerPID = true;
 	
     public Arm() {
-		targetLowerJointPositionRotations = lowerRestPosition;
-		targetUpperJointPositionRotations = upperRestPosition;
+		targetLowerPositionRotations = lowerRestPosition;
+		targetUpperPositionRotations = upperRestPosition;
         
 		int lowerAbsolutePosition = lowerJoint.getPulseWidthPosition() & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
         /* use the low level API to set the quad encoder signal */
@@ -92,25 +96,6 @@ public class Arm extends Subsystem {
         upperJoint.setD(0.0);
     }
     
-    public void setUpperJointTargetLower() {
-    	targetUpperJointPositionRotations = upperPosition;
-    }
-    
-    public void setLowerJointTargetLower() {
-    	targetLowerJointPositionRotations = lowerPosition;
-    }
-    
-    public void setUpperJointHome() {
-    	targetUpperJointPositionRotations = upperHomePosition;
-    }
-    public void setUpperJointTargetRest() {
-    	targetUpperJointPositionRotations = upperRestPosition;
-    }
-    
-    public void setLowerJointTargetRest() {
-    	targetLowerJointPositionRotations = lowerRestPosition;
-    }
-    
     public void maintainLowerJointPosition() { 
     	double motorOutput = lowerJoint.getOutputVoltage()/lowerJoint.getBusVoltage();
     	sb.append("Lower:");
@@ -119,11 +104,11 @@ public class Arm extends Subsystem {
 	  	sb.append("\tpos:");
         sb.append(lowerJoint.getPosition() );
         lowerJoint.changeControlMode(TalonControlMode.Position);
-    	lowerJoint.set(targetLowerJointPositionRotations);
+    	lowerJoint.set(targetLowerPositionRotations);
     	sb.append("\terrNative:");
     	sb.append(lowerJoint.getClosedLoopError());
     	sb.append("\ttrg:");
-    	sb.append(targetLowerJointPositionRotations);
+    	sb.append(targetLowerPositionRotations);
     	if(++loopsL >= 10) {
           	loopsL = 0;
           	System.out.println(sb.toString());
@@ -139,11 +124,11 @@ public class Arm extends Subsystem {
 	  	sb.append("\tpos:");
         sb.append(upperJoint.getPosition() );
         upperJoint.changeControlMode(TalonControlMode.Position);
-    	upperJoint.set(targetUpperJointPositionRotations);
+    	upperJoint.set(targetUpperPositionRotations);
     	sb.append("\terrNative:");
     	sb.append(upperJoint.getClosedLoopError());
     	sb.append("\ttrg:");
-    	sb.append(targetUpperJointPositionRotations);
+    	sb.append(targetUpperPositionRotations);
     	if(++loopsU >= 10) {
           	loopsU = 0;
           	System.out.println(sb.toString());
@@ -151,71 +136,63 @@ public class Arm extends Subsystem {
         sb.setLength(0);
     }
     
-    //end of PID code
-    
-    public void spinLowerJointForward() {
-    	lowerJoint.set(0.5);
+    public void setLowerRest() {
+    	targetLowerPositionRotations = lowerRestPosition;
+    }
+    public void setUpperRest() {
+    	targetUpperPositionRotations = upperRestPosition;
+    }
+    public void setUpperHome() {
+    	targetUpperPositionRotations = upperHomePosition;
     }
     
-    public void spinUpperJointForward() {
-    	upperJoint.set(0.5);
+    public void setLowerSally() {
+    	targetLowerPositionRotations = sallyLowerPosition;
+    }
+    public void setUpperSally() {
+    	targetUpperPositionRotations = sallyUpperPosition;
     }
     
-    public void spinUpperJointBackward() {
-    	upperJoint.set(-0.5);
+    public void setLowerDrawReach() {
+    	targetLowerPositionRotations = drawReachLowerPosition;
+    }
+    public void setUpperDrawReach() {
+    	targetUpperPositionRotations = drawReachUpperPosition;
+    }
+    public void setLowerDrawPress() {
+    	targetLowerPositionRotations = drawPressLowerPosition;
+    }
+    public void setUpperDrawPress() {
+    	targetUpperPositionRotations = drawPressUpperPosition;
     }
 
-    public void stopUpperPID() {
-    	isUpperPID = false;
-    }
-    
-    public void startUpperPID() {
-    	isUpperPID = true;
-    }
-    
     public void stopLowerPID() {
     	isLowerPID = false;
     }
-    
     public void startLowerPID() {
     	isLowerPID = true;
     }
-    
-    public void spinLowerJointAtSpeed(double speed) {
-    	lowerJoint.set(speed);
+    public void stopUpperPID() {
+    	isUpperPID = false;
     }
-    
-    public void spinUpperJointAtSpeed(double speed) {
-    	upperJoint.set(speed);
+    public void startUpperPID() {
+    	isUpperPID = true;
     }
-    
-    public void spinLowerJointBackward() {
-    	lowerJoint.set(-0.5);
-    }
-    
-    public void stopUpperJoint() {
-    	upperJoint.set(0.0);
-    }
-    
-    public void stopLowerJoint() {
-    	lowerJoint.set(0.0);
-    }
-
-	@Override
-	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
-		
-	} 
     
     public void runLowerJointWithXboxController(Joystick s) {
 		double y = s.getAxis(AxisType.kY);
 		lowerJoint.set(-y);
 	}
-    
     public void runUpperJointWithXboxController(Joystick s) {
 		double y = s.getAxis(AxisType.kY);
 		upperJoint.set(y);
 	}
     
-} 
+	@Override
+	protected void initDefaultCommand() {
+		// TODO Auto-generated method stub
+		
+	}
+    
+}
 
