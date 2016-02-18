@@ -51,7 +51,7 @@ public class MoveUpperJoint extends Command {
     protected void end() {
     	//Robot.arm.stopUpperJoint();
     	Robot.arm.startUpperPID();
-    	Robot.arm.stopUpperJoint();
+    	//Robot.arm.stopUpperJoint();
     }
 
     // Called when another command which requires one or more of the same

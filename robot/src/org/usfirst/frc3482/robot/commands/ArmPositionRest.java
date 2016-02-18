@@ -24,7 +24,7 @@ public class ArmPositionRest extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.arm.setUpperJointTargetRest();
+    	Robot.arm.setUpperRest();
     	finished = true;
     }
 

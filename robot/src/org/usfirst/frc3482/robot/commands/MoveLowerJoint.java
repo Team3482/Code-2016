@@ -61,7 +61,7 @@ public class MoveLowerJoint extends Command {
     protected void end() {
     	//Robot.arm.stopLowerJoint();
     	Robot.arm.startLowerPID();
-    	Robot.arm.stopLowerJoint();
+    	//Robot.arm.stopLowerJoint();
     }
 
     // Called when another command which requires one or more of the same
