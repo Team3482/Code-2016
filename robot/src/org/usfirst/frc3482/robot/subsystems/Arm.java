@@ -37,7 +37,9 @@ public class Arm extends Subsystem {
     StringBuilder sb = new StringBuilder();
 	int loopsL = 0;
 	int loopsU = 0;
-	final double lowerRestPosition = 0;
+	final double lowerStartPosition;
+	final double upperStartPosition;
+	/*final double lowerRestPosition = 0;
 	final double upperRestPosition = 0;
 	final double upperHomePosition = .938;
 	final double sallyLowerPosition = 0.270;
@@ -45,7 +47,16 @@ public class Arm extends Subsystem {
 	final double drawReachLowerPosition = .382;
 	final double drawReachUpperPosition = .214;
 	final double drawPressLowerPosition = .463;
-	final double drawPressUpperPosition = 1.274;
+	final double drawPressUpperPosition = 1.274;*/
+	final double lowerRestPosition;
+	final double upperRestPosition;
+	final double upperHomePosition;
+	final double sallyLowerPosition;
+	final double sallyUpperPosition;
+	final double drawReachLowerPosition;
+	final double drawReachUpperPosition;
+	final double drawPressLowerPosition;
+	final double drawPressUpperPosition;
 	
 	double targetLowerPositionRotations;
 	double targetUpperPositionRotations;
@@ -53,9 +64,7 @@ public class Arm extends Subsystem {
     boolean isLowerPID = true;
 	
     public Arm() {
-		targetLowerPositionRotations = lowerRestPosition;
-		targetUpperPositionRotations = upperRestPosition;
-        
+    	//Lower Joint PID setup
 		int lowerAbsolutePosition = lowerJoint.getPulseWidthPosition() & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
         /* use the low level API to set the quad encoder signal */
         lowerJoint.setEncPosition(lowerAbsolutePosition);
@@ -91,6 +100,23 @@ public class Arm extends Subsystem {
         upperJoint.setP(1.75);
         upperJoint.setI(0.0); 
         upperJoint.setD(0.0);
+		
+        
+		lowerStartPosition = lowerJoint.getPosition();
+		upperStartPosition = upperJoint.getPosition();
+		
+		lowerRestPosition = lowerStartPosition+0;
+		upperRestPosition = upperStartPosition+0;
+		upperHomePosition = upperStartPosition+.938;
+		sallyLowerPosition = lowerStartPosition+0.270;
+		sallyUpperPosition = upperStartPosition+0.526;
+		drawReachLowerPosition = lowerStartPosition+.382;
+		drawReachUpperPosition = upperStartPosition+.214;
+		drawPressLowerPosition = lowerStartPosition+.463;
+		drawPressUpperPosition = upperStartPosition+1.274;
+
+		targetLowerPositionRotations = lowerRestPosition;
+		targetUpperPositionRotations = upperRestPosition;
     }
     
     public void maintainLowerJointPosition() { 

@@ -24,6 +24,8 @@ import edu.wpi.first.wpilibj.CANTalon.TalonControlMode;
 import edu.wpi.first.wpilibj.CounterBase.EncodingType;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Timer;
@@ -34,7 +36,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class Chassis extends Subsystem {
+public class Chassis extends Subsystem {//implements PIDOutput {
 
     private final AnalogInput rangeFinder = RobotMap.chassisrangeFinder;
     public final AHRS imu = RobotMap.chassisIMU;
@@ -43,6 +45,7 @@ public class Chassis extends Subsystem {
     private final CANTalon frontRight = RobotMap.chassisfrontRight; 
     private final CANTalon backRight = RobotMap.chassisbackRight; //encoder
     private final RobotDrive robotDrive41 = RobotMap.chassisRobotDrive41;
+    PIDController rotateController;
 
     boolean dirFrontLeft = false;
     boolean dirRearLeft = false;
@@ -54,6 +57,7 @@ public class Chassis extends Subsystem {
     double driveWheelDiameter = 8; //inches
     double driveWheelCircumference = driveWheelDiameter*Math.PI;
     double driveWheelGearRatio = 12.75;
+    double rotateToAngleRate;
     
     
     public Chassis() {
@@ -66,7 +70,7 @@ public class Chassis extends Subsystem {
     	backLeft.setAllowableClosedLoopErr(0);
     	backLeft.setProfile(0);
     	backLeft.setF(0);
-    	backLeft.setP(.7);
+    	backLeft.setP(1.5);
     	backLeft.setI(0);
     	backLeft.setD(0);
     	
@@ -80,9 +84,16 @@ public class Chassis extends Subsystem {
     	backRight.setAllowableClosedLoopErr(0);
     	backRight.setProfile(0);
     	backRight.setF(0);
-    	backRight.setP(.7);
+    	backRight.setP(1.5);
     	backRight.setI(0);
     	backRight.setD(0);
+    	
+    	
+    	/*rotateController = new PIDController(.03, 0, 0, 0, imu, this);
+    	rotateController.setInputRange(-180.0f,  180.0f);
+    	rotateController.setOutputRange(-1.0, 1.0);
+        rotateController.setAbsoluteTolerance(2f);
+        rotateController.setContinuous(true);*/
     }
         
     public void invertMotors() {
@@ -219,19 +230,19 @@ public class Chassis extends Subsystem {
         SmartDashboard.putNumber(   "IMU_Update_Count",     imu.getUpdateCount());
 	}
 	
-	public void PIDMove(double rotations) {
+	public void PIDMove(double rotationsL, double rotationsR) {
 		double motorOutput = backLeft.getOutputVoltage()/backLeft.getBusVoltage();
-    	sb.append("Lower:");
+    	sb.append("Left:");
     	sb.append("\tout:");
 	  	sb.append(motorOutput);
 	  	sb.append("\tpos:");
         sb.append(backLeft.getPosition() );
         backLeft.changeControlMode(TalonControlMode.Position);
-        backLeft.set(rotations);
+        backLeft.set(rotationsL);
     	sb.append("\terrNative:");
     	sb.append(backLeft.getClosedLoopError());
     	sb.append("\ttrg:");
-    	sb.append(rotations);
+    	sb.append(rotationsL);
     	if(++loopsL >= 10) {
           	loopsL = 0;
           	System.out.println(sb.toString());
@@ -239,17 +250,17 @@ public class Chassis extends Subsystem {
         sb.setLength(0);
         
         motorOutput = backRight.getOutputVoltage()/backRight.getBusVoltage();
-    	sb.append("Upper:");
+    	sb.append("Right:");
     	sb.append("\tout:");
 	  	sb.append(motorOutput);
 	  	sb.append("\tpos:");
         sb.append(backRight.getPosition() );
         backRight.changeControlMode(TalonControlMode.Position);
-        backRight.set(rotations);
+        backRight.set(rotationsR);
     	sb.append("\terrNative:");
     	sb.append(backRight.getClosedLoopError());
     	sb.append("\ttrg:");
-    	sb.append(rotations);
+    	sb.append(rotationsR);
     	if(++loopsR >= 10) {
           	loopsR = 0;
           	System.out.println(sb.toString());
@@ -265,13 +276,21 @@ public class Chassis extends Subsystem {
 	//Moves the robot a certain distance (inches) forward
 	public void moveDistance(double distance) {
 		double rotations = driveWheelCircumference/distance*driveWheelGearRatio;
-		while(backLeft.getClosedLoopError() > 2 && backRight.getClosedLoopError() > 2) {
-			PIDMove(rotations);
+		double rotationsL = backLeft.getPosition()+rotations;
+		double rotationsR = backRight.getPosition()+rotations;
+		PIDMove(rotationsL, rotationsR);
+		while(true/*backLeft.getClosedLoopError() > 2 && backRight.getClosedLoopError() > 2*/) {
+			PIDMove(rotationsL, rotationsR);
 		}
 	}
 	
 	//Rotates the robot by a given degrees
-	public void rotateAngle(double degrees) {
+	public void rotateByAngle(double degrees) {
+		
+	}
+	
+	//Rotates the robot to a given degrees
+	public void rotateToAngle(double degrees) {
 		
 	}
 	
@@ -289,5 +308,10 @@ public class Chassis extends Subsystem {
         // Set the default command for a subsystem here.
         // setDefaultCommand(new MySpecialCommand());
     }
+
+	/*@Override
+	public void pidWrite(double output) {
+		rotateToAngleRate = output;
+	}*/
 }
 

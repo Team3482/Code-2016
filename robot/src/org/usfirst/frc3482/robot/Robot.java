@@ -98,7 +98,8 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
-        
+        //temp
+        //Robot.arm.setUpperHome();
     }
 
     /**
@@ -116,12 +117,12 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         Robot.chassis.driveWithXboxController(Robot.oi.getxboxController());
-        //Robot.intake.maintainPosition();
+        Robot.intake.maintainPosition();
         //Robot.shooter.setControllerRumble();
-        Robot.arm.maintainLowerJointPosition();
-        Robot.arm.maintainUpperJointPosition();
+        //Robot.arm.maintainLowerJointPosition();
+        //Robot.arm.maintainUpperJointPosition();
         
-        System.out.println(Robot.chassis.imu.getYaw());
+        //System.out.println(Robot.chassis.imu.getYaw());
     }
 
     /**

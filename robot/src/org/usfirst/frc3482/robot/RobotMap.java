@@ -57,7 +57,7 @@ public class RobotMap {
     
     public static void init() {
     	//TODO: Initialize range finder
-        LiveWindow.addSensor("Chassis", "rangeFinder", chassisrangeFinder);
+        //LiveWindow.addSensor("Chassis", "rangeFinder", chassisrangeFinder);
         
         try{
     		chassisIMU = new AHRS(SerialPort.Port.kMXP);
@@ -74,7 +74,7 @@ public class RobotMap {
         LiveWindow.addActuator("Chassis", "frontRight", chassisfrontRight);
         chassisbackRight = new CANTalon(3);
         LiveWindow.addActuator("Chassis", "backRight", chassisbackRight);
-        
+
         chassisRobotDrive41 = new RobotDrive(chassisfrontLeft, chassisbackLeft, chassisfrontRight, chassisbackRight);
         chassisRobotDrive41.setSafetyEnabled(true);
         chassisRobotDrive41.setExpiration(0.1);

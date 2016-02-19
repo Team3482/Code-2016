@@ -48,15 +48,19 @@ public class Intake extends Subsystem {
     
 	StringBuilder sb = new StringBuilder();
 	int loops = 0;
-	final double lowerPosition = -35.247; //-14
-	final double restPosition = -.811; //1.5
-	final double portPosition = -51.303; //-20
+	final double startPosition; //.703
+	final double lowerPosition; //-34.196
+	final double restPosition; //-2.283
+	final double portPosition; //-46.324
+	/*final double lowerPosition = -33.679; //intake
+	final double restPosition = .517;
+	final double portPosition = -53.650;*/
 	double targetPositionRotations;
     boolean isPID = true;
+    
+    //
 	
-    public Intake() {
-        targetPositionRotations = restPosition;
-        
+    public Intake() {        
 		int absolutePosition = intake.getPulseWidthPosition() & 0xFFF; /* mask out the bottom12 bits, we don't care about the wrap arounds */
         /* use the low level API to set the quad encoder signal */
         intake.setEncPosition(absolutePosition);
@@ -74,6 +78,13 @@ public class Intake extends Subsystem {
         intake.setD(0.0);
         
         //intake.changeControlMode(TalonControlMode.Position);
+        
+        
+        startPosition = intake.getPosition();
+        restPosition = startPosition-2.986;
+		lowerPosition = startPosition-34.899;
+		portPosition = startPosition-47.027;
+        targetPositionRotations = restPosition;
     }
     
     public void maintainPosition() {
