@@ -25,7 +25,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  *
  */
-public class Chassis extends Subsystem {//implements PIDOutput {
+public class Chassis extends Subsystem implements PIDOutput {
 
     private final AnalogInput rangeFinder = RobotMap.chassisrangeFinder;
     public final AHRS imu = RobotMap.chassisIMU;
@@ -62,7 +62,7 @@ public class Chassis extends Subsystem {//implements PIDOutput {
     	backLeft.setP(1.5);
     	backLeft.setI(0);
     	backLeft.setD(0);
-    	
+    	    	
     	
     	backRight.setFeedbackDevice(FeedbackDevice.QuadEncoder);
     	backRight.reverseSensor(false);
@@ -78,11 +78,11 @@ public class Chassis extends Subsystem {//implements PIDOutput {
     	backRight.setD(0);
     	
     	
-    	/*rotateController = new PIDController(.03, 0, 0, 0, imu, this);
+    	rotateController = new PIDController(.03, 0, 0, 0, imu, this);
     	rotateController.setInputRange(-180.0f,  180.0f);
     	rotateController.setOutputRange(-1.0, 1.0);
         rotateController.setAbsoluteTolerance(2f);
-        rotateController.setContinuous(true);*/
+        rotateController.setContinuous(true);
     }
         
     public void invertMotors() {
@@ -226,8 +226,6 @@ public class Chassis extends Subsystem {//implements PIDOutput {
 	  	sb.append(motorOutput);
 	  	sb.append("\tpos:");
         sb.append(backLeft.getPosition() );
-        backLeft.changeControlMode(TalonControlMode.Position);
-        backLeft.set(rotationsL);
     	sb.append("\terrNative:");
     	sb.append(backLeft.getClosedLoopError());
     	sb.append("\ttrg:");
@@ -244,8 +242,6 @@ public class Chassis extends Subsystem {//implements PIDOutput {
 	  	sb.append(motorOutput);
 	  	sb.append("\tpos:");
         sb.append(backRight.getPosition() );
-        backRight.changeControlMode(TalonControlMode.Position);
-        backRight.set(rotationsR);
     	sb.append("\terrNative:");
     	sb.append(backRight.getClosedLoopError());
     	sb.append("\ttrg:");
@@ -255,6 +251,11 @@ public class Chassis extends Subsystem {//implements PIDOutput {
           	System.out.println(sb.toString());
         }
         sb.setLength(0);
+        
+        backLeft.set(rotationsL);
+        backRight.set(rotationsR);
+        frontLeft.set(backLeft.getOutputVoltage());
+        frontRight.set(backRight.getOutputVoltage());
 	}
 	
 	//moves the robot to a location
@@ -264,23 +265,38 @@ public class Chassis extends Subsystem {//implements PIDOutput {
 	
 	//Moves the robot a certain distance (inches) forward
 	public void moveDistance(double distance) {
-		double rotations = driveWheelCircumference/distance*driveWheelGearRatio;
+		double rotations = distance/driveWheelCircumference*driveWheelGearRatio;
 		double rotationsL = backLeft.getPosition()+rotations;
 		double rotationsR = backRight.getPosition()+rotations;
+		
+		backRight.changeControlMode(TalonControlMode.Position);
+		backLeft.changeControlMode(TalonControlMode.Position);
+    	frontLeft.changeControlMode(TalonControlMode.Voltage);
+        frontRight.changeControlMode(TalonControlMode.Voltage);
+		
 		PIDMove(rotationsL, rotationsR);
 		while(true/*backLeft.getClosedLoopError() > 2 && backRight.getClosedLoopError() > 2*/) {
 			PIDMove(rotationsL, rotationsR);
 		}
+		
+		backRight.changeControlMode(TalonControlMode.PercentVbus);
+		backLeft.changeControlMode(TalonControlMode.PercentVbus);
+    	frontLeft.changeControlMode(TalonControlMode.PercentVbus);
+        frontRight.changeControlMode(TalonControlMode.PercentVbus);
 	}
 	
 	//Rotates the robot by a given degrees
 	public void rotateByAngle(double degrees) {
-		
+		//rotateToAngle();
 	}
 	
-	//Rotates the robot to a given degrees
+	//Rotates the robot to a given degrees (-180 to 180)
 	public void rotateToAngle(double degrees) {
-		
+		rotateController.setSetpoint(degrees);
+		while(true) {
+			move(0.0,rotateToAngleRate);
+		}
+		move(0.0,0.0);
 	}
 	
 	//stops the robot
@@ -298,9 +314,9 @@ public class Chassis extends Subsystem {//implements PIDOutput {
         // setDefaultCommand(new MySpecialCommand());
     }
 
-	/*@Override
+	@Override
 	public void pidWrite(double output) {
 		rotateToAngleRate = output;
-	}*/
+	}
 }
 
