@@ -10,8 +10,6 @@ import edu.wpi.first.wpilibj.command.Command;
 public class RunWheelsOnGround extends Command {
 
     public RunWheelsOnGround() {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     	requires(Robot.chassis);
     	requires(Robot.intake);
     }
