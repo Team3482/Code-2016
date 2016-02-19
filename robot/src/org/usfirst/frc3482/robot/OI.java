@@ -58,8 +58,8 @@ public class OI {
         runWheelsOnGroundButton.whileHeld(new RunWheelsOnGround());
         sallyPortButton = new JoystickButton(joystick, 11);
         sallyPortButton.whileHeld(new AutoSallyPort());
-        portcullisButton = new JoystickButton(joystick, 12);
-        portcullisButton.whileHeld(new ArmPositionPortCullis());
+        //portcullisButton = new JoystickButton(joystick, 12);
+        //portcullisButton.whileHeld(new ArmPositionPortCullis());
         armRestButton = new JoystickButton(joystick, 8);
         armRestButton.whenPressed(new ArmPositionRest());
         
@@ -87,14 +87,14 @@ public class OI {
         //topJointButton.whileHeld(new );
         
         // SmartDashboard Buttons
-        SmartDashboard.putData("ArmPositionPort", new AutoSallyPort());
-        SmartDashboard.putData("ArmPositionBridge", new ArmPositionBridge());
+        //SmartDashboard.putData("ArmPositionPort", new AutoSallyPort());
+        //SmartDashboard.putData("ArmPositionBridge", new ArmPositionBridge());
         SmartDashboard.putData("InvertDirection", new InvertDirection());
         SmartDashboard.putData("LowerIntake", new LowerIntake());
         SmartDashboard.putData("SpinAndShoot", new SpinAndShoot());
         SmartDashboard.putData("Shoot", new Shoot());
         SmartDashboard.putData("SpinShooter", new SpinShooter());
-        SmartDashboard.putData("Move", new Move());
+        //SmartDashboard.putData("Move", new Move());
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
         SmartDashboard.putData("Drive", new Drive());
     }

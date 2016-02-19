@@ -7,11 +7,16 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ArmPositionRest extends Command {
+public class Rotate extends Command {
+
+	private double rotateValue;
+	private boolean isRelative;
 	
-    public ArmPositionRest() {
-    	requires(Robot.chassis);
-    	requires(Robot.arm);
+    public Rotate(double rotateValue, boolean isRelative) {
+        requires(Robot.chassis);
+        
+        this.rotateValue = rotateValue;
+        this.isRelative = isRelative;
     }
 
     // Called just before this Command runs the first time
@@ -20,8 +25,11 @@ public class ArmPositionRest extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.arm.setLowerRest();
-    	Robot.arm.setUpperRest();
+    	if(isRelative) {
+    		Robot.chassis.rotateByAngle(rotateValue);
+    	} else {
+    		Robot.chassis.rotateToAngle(rotateValue);
+    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
