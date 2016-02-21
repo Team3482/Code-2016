@@ -7,13 +7,15 @@
 .mtj.tmp/
 
 # Package Files #
-*.jar
 *.war
 *.ear
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
+# FRC build directories
+build/
+dist/
 
 ### C++ ###
 # Compiled Object files
@@ -38,7 +40,6 @@ hs_err_pid*
 *.lai
 *.la
 *.a
-*.lib
 
 # Executables
 *.exe
@@ -60,9 +61,6 @@ local.properties
 .settings/
 .loadpath
 
-# Eclipse Core
-.project
-
 # External tool builders
 .externalToolBuilders/
 
@@ -71,9 +69,6 @@ local.properties
 
 # CDT-specific
 .cproject
-
-# JDT-specific (Eclipse Java Development Tools)
-.classpath
 
 # PDT-specific
 .buildpath
