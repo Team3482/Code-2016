@@ -275,7 +275,7 @@ public class Chassis extends Subsystem implements PIDOutput {
         frontRight.changeControlMode(TalonControlMode.Voltage);
 		
 		PIDMove(rotationsL, rotationsR);
-		while(true/*backLeft.getClosedLoopError() > 2 && backRight.getClosedLoopError() > 2*/) {
+		while(backLeft.getClosedLoopError() > 2 && backRight.getClosedLoopError() > 2) {
 			PIDMove(rotationsL, rotationsR);
 		}
 		
@@ -296,7 +296,7 @@ public class Chassis extends Subsystem implements PIDOutput {
 		while(true) {
 			move(0.0,rotateToAngleRate);
 		}
-		move(0.0,0.0);
+		//move(0.0,0.0);
 	}
 	
 	//stops the robot

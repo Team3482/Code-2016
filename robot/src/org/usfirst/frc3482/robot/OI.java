@@ -32,6 +32,7 @@ public class OI {
     public JoystickButton sallyPortButton;
     public JoystickButton portcullisButton;
     public JoystickButton armRestButton;
+    public JoystickButton armHomeButton;
     public JoystickButton climberButton;
     public JoystickButton extendClimberButton;
     
@@ -83,7 +84,8 @@ public class OI {
 //        armPositionBridgeButton.whenPressed(new ArmPositionBridge());
         //spinAndShootButton = new JoystickButton(xboxController, 1);
         //spinAndShootButton.whenPressed(new SpinAndShoot());
-        topJointButton = new JoystickButton(joystick, 9);
+        armHomeButton = new JoystickButton(joystick, 9);
+        armHomeButton.whenPressed(new ArmPositionHome());
         //topJointButton.whileHeld(new );
         
         // SmartDashboard Buttons
