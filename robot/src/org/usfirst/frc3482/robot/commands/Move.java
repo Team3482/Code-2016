@@ -32,25 +32,26 @@ public class Move extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(time != -1) {
-	    	//disabled safety and moves to a location
-			Robot.chassis.setSafety(false);
-			Robot.chassis.move(moveValue, rotateValue);
-			//waits for a given time
-			Timer.delay(time);
-			//enables safety and stops
-			Robot.chassis.move(0.0, 0.0);
-			Robot.chassis.setSafety(true);
-    	} else {
-    		Robot.chassis.setSafety(false);
-    		Robot.chassis.moveDistance(moveValue);
-    		Robot.chassis.setSafety(true);
-    	}
+    	Robot.chassis.move(moveValue, rotateValue);
+//    	if(time != -1) {
+//	    	//disabled safety and moves to a location
+//			Robot.chassis.setSafety(false);
+//			Robot.chassis.move(moveValue, rotateValue);
+//			//waits for a given time
+//			Timer.delay(time);
+//			//enables safety and stops
+//			Robot.chassis.move(0.0, 0.0);
+//			Robot.chassis.setSafety(true);
+//    	} else {
+//    		Robot.chassis.setSafety(false);
+//    		Robot.chassis.moveDistance(moveValue);
+//    		Robot.chassis.setSafety(true);
+//    	}
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true

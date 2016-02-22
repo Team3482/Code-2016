@@ -47,18 +47,18 @@ public class OI {
         spinShooterButton = new JoystickButton(joystick, 2);
         spinShooterButton.whileHeld(new SpinShooter());
         
-        moveUpperJointButton = new JoystickButton(joystick, 10);
-        moveUpperJointButton.whileHeld(new MoveLowerJoint());
-        moveLowerJointButton = new JoystickButton(joystick, 9);
-        moveLowerJointButton.whileHeld(new MoveUpperJoint());
+//        moveUpperJointButton = new JoystickButton(joystick, 10);
+//        moveUpperJointButton.whileHeld(new MoveLowerJoint());
+//        moveLowerJointButton = new JoystickButton(joystick, 9);
+//        moveLowerJointButton.whileHeld(new MoveUpperJoint());
         moveIntakeButton = new JoystickButton(joystick, 6);
         moveIntakeButton.whileHeld(new MoveIntake());
         spinIntakeWheelsButton = new JoystickButton(joystick, 4);
         spinIntakeWheelsButton.whileHeld(new SpinIntakeWheels());
-        runWheelsOnGroundButton = new JoystickButton(joystick, 5);
+        runWheelsOnGroundButton = new JoystickButton(joystick, 7);
         runWheelsOnGroundButton.whileHeld(new RunWheelsOnGround());
         sallyPortButton = new JoystickButton(joystick, 11);
-        sallyPortButton.whileHeld(new AutoSallyPort());
+        sallyPortButton.whenPressed(new AutoSallyPort());
         //portcullisButton = new JoystickButton(joystick, 12);
         //portcullisButton.whileHeld(new ArmPositionPortCullis());
         armRestButton = new JoystickButton(joystick, 8);
@@ -76,7 +76,7 @@ public class OI {
         forwardFeedButton.whileHeld(new FeedShooter());
         reverseFeedButton = new JoystickButton(joystick, 3);
         reverseFeedButton.whileHeld(new FeedShooter(false));
-        lowerIntakeButton = new JoystickButton(joystick, 7);
+        lowerIntakeButton = new JoystickButton(joystick, 5);
         lowerIntakeButton.toggleWhenPressed(new LowerIntake());
 //        bridgeButton = new JoystickButton(xboxController, 8);
 //        bridgeButton.toggleWhenPressed(new ArmPositionBridge());

@@ -50,7 +50,7 @@ public class Chassis extends Subsystem implements PIDOutput {
     
     
     public Chassis() {
-    	backLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+    	/*backLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
     	backLeft.reverseSensor(false);
     	backLeft.configEncoderCodesPerRev(250);
     	backLeft.configNominalOutputVoltage(+0f, -0f);
@@ -75,10 +75,10 @@ public class Chassis extends Subsystem implements PIDOutput {
     	backRight.setF(0);
     	backRight.setP(1.5);
     	backRight.setI(0);
-    	backRight.setD(0);
+    	backRight.setD(0);*/
     	
     	
-    	rotateController = new PIDController(.03, 0, 0, 0, imu, this);
+    	rotateController = new PIDController(0.01, 0, 0, 0, imu, this);
     	rotateController.setInputRange(-180.0f,  180.0f);
     	rotateController.setOutputRange(-1.0, 1.0);
         rotateController.setAbsoluteTolerance(2f);
@@ -98,7 +98,7 @@ public class Chassis extends Subsystem implements PIDOutput {
     }
     
     public void driveWithJoystick(Joystick s) {
-		double deadZone = .1;
+		double deadZone = 0.0;
 		double xAxis = s.getAxis(Joystick.AxisType.kX);
 		double yAxis = s.getAxis(Joystick.AxisType.kY);
 		//System.out.println("xaxis: " + xAxis);
@@ -126,7 +126,7 @@ public class Chassis extends Subsystem implements PIDOutput {
 		double rightX = s.getRawAxis(4);
 		//System.out.println("xaxis: " + rightX);
 		//System.out.println("yaxis: " + leftY);
-		double deadZone = 0.1;
+		double deadZone = 0.0;
 
 		if (leftY < deadZone && leftY > -deadZone) {
 			leftY = 0;
@@ -263,26 +263,22 @@ public class Chassis extends Subsystem implements PIDOutput {
 		robotDrive41.arcadeDrive(moveValue, rotateValue);
 	}
 	
+	double rotations = 0;
+	public void setDesiredDistance(double distance) {
+		rotations = distance/driveWheelCircumference*driveWheelGearRatio + backLeft.getPosition();
+		//rotationsL = backLeft.getPosition()+rotations;
+	}
 	//Moves the robot a certain distance (inches) forward
-	public void moveDistance(double distance) {
-		double rotations = distance/driveWheelCircumference*driveWheelGearRatio;
-		double rotationsL = backLeft.getPosition()+rotations;
-		double rotationsR = backRight.getPosition()+rotations;
-		
-		backRight.changeControlMode(TalonControlMode.Position);
-		backLeft.changeControlMode(TalonControlMode.Position);
-    	frontLeft.changeControlMode(TalonControlMode.Voltage);
-        frontRight.changeControlMode(TalonControlMode.Voltage);
-		
-		PIDMove(rotationsL, rotationsR);
-		while(backLeft.getClosedLoopError() > 2 && backRight.getClosedLoopError() > 2) {
-			PIDMove(rotationsL, rotationsR);
-		}
-		
-		backRight.changeControlMode(TalonControlMode.PercentVbus);
-		backLeft.changeControlMode(TalonControlMode.PercentVbus);
-    	frontLeft.changeControlMode(TalonControlMode.PercentVbus);
-        frontRight.changeControlMode(TalonControlMode.PercentVbus);
+	public void moveDistance() {
+		robotDrive41.arcadeDrive(0.4, 0.0);
+	}
+	
+	public boolean shouldBeMoving() {
+		return (backLeft.getPosition() < rotations);
+	}
+	
+	public void stopMoving() {
+		robotDrive41.arcadeDrive(0.0, 0.0);
 	}
 	
 	//Rotates the robot by a given degrees
@@ -292,11 +288,26 @@ public class Chassis extends Subsystem implements PIDOutput {
 	
 	//Rotates the robot to a given degrees (-180 to 180)
 	public void rotateToAngle(double degrees) {
+		enableRotation();
 		rotateController.setSetpoint(degrees);
-		while(true) {
-			move(0.0,rotateToAngleRate);
-		}
-		//move(0.0,0.0);
+			System.out.println("rotate error" + rotateController.getError());
+			System.out.println("rotating" + rotateToAngleRate);
+			//move(0.0, rotateToAngleRate);
+			//move(0.0,0.0);
+		
+	}
+	
+	public void printRotateInfo() {
+		System.out.println("rotate error" + rotateController.getError());
+		System.out.println("rotating" + rotateToAngleRate);
+	}
+	
+	public void enableRotation() {
+		rotateController.enable();
+	}
+	
+	public void disableRotation() {
+		rotateController.disable();
 	}
 	
 	//stops the robot

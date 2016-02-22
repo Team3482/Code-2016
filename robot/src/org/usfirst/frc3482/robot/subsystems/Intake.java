@@ -63,8 +63,8 @@ public class Intake extends Subsystem {
         
         
         startPosition = intake.getPosition();
-        restPosition = startPosition-2.986;
-		lowerPosition = startPosition-34.899;
+        restPosition = startPosition-3.986;
+        lowerPosition = startPosition-32.5;
 		portPosition = startPosition-47.027;
         targetPositionRotations = restPosition;
     }

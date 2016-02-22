@@ -67,7 +67,7 @@ public class Arm extends Subsystem {
         lowerJoint.setAllowableClosedLoopErr(0);
         lowerJoint.setProfile(0);
         lowerJoint.setF(0.0);
-        lowerJoint.setP(1.75);
+        lowerJoint.setP(2.5);
         lowerJoint.setI(0.0); 
         lowerJoint.setD(0.0);
         
@@ -86,7 +86,7 @@ public class Arm extends Subsystem {
         upperJoint.setAllowableClosedLoopErr(0);
         upperJoint.setProfile(0);
         upperJoint.setF(0.0);
-        upperJoint.setP(1.75);
+        upperJoint.setP(2.5);
         upperJoint.setI(0.0); 
         upperJoint.setD(0.0);
 		
@@ -94,15 +94,15 @@ public class Arm extends Subsystem {
 		lowerStartPosition = lowerJoint.getPosition();
 		upperStartPosition = upperJoint.getPosition();
 		
-		lowerRestPosition = lowerStartPosition+0;
-		upperRestPosition = upperStartPosition+0;
-		upperHomePosition = upperStartPosition+.938;
-		sallyLowerPosition = lowerStartPosition+0.270;
-		sallyUpperPosition = upperStartPosition+0.526;
-		drawReachLowerPosition = lowerStartPosition+.382;
-		drawReachUpperPosition = upperStartPosition+.214;
-		drawPressLowerPosition = lowerStartPosition+.463;
-		drawPressUpperPosition = upperStartPosition+1.274;
+		lowerRestPosition = 0;
+		upperRestPosition = 0;
+		upperHomePosition = .938;
+		sallyLowerPosition = 0.314;
+		sallyUpperPosition = 0.4;
+		drawReachLowerPosition = .382;
+		drawReachUpperPosition = .214;
+		drawPressLowerPosition = .463;
+		drawPressUpperPosition = 1.274;
 
 		targetLowerPositionRotations = lowerRestPosition;
 		targetUpperPositionRotations = upperRestPosition;

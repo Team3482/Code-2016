@@ -79,7 +79,11 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
-    }
+    	Robot.chassis.printRotateInfo();
+		//move(0.0, rotateToAngleRate);
+		//move(0.0,0.0);
+	}
+    
 
     public void teleopInit() {
         // This makes sure that the autonomous stops running when
@@ -109,7 +113,7 @@ public class Robot extends IterativeRobot {
         
         Robot.intake.maintainPosition();
         Robot.arm.maintainLowerJointPosition();
-        Robot.arm.maintainUpperJointPosition();
+        //Robot.arm.maintainUpperJointPosition();
     }
 
     /**
