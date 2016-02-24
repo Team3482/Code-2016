@@ -55,8 +55,8 @@ public class OI {
         moveIntakeButton.whileHeld(new MoveIntake());
         spinIntakeWheelsButton = new JoystickButton(joystick, 4);
         spinIntakeWheelsButton.whileHeld(new SpinIntakeWheels());
-        runWheelsOnGroundButton = new JoystickButton(joystick, 7);
-        runWheelsOnGroundButton.whileHeld(new RunWheelsOnGround());
+//        runWheelsOnGroundButton = new JoystickButton(joystick, 7);
+//        runWheelsOnGroundButton.whileHeld(new RunWheelsOnGround());
         sallyPortButton = new JoystickButton(joystick, 11);
         sallyPortButton.whenPressed(new ArmPositionSally());
         //portcullisButton = new JoystickButton(joystick, 12);
@@ -78,8 +78,8 @@ public class OI {
         reverseFeedButton.whileHeld(new FeedShooter(false));
         lowerIntakeButton = new JoystickButton(joystick, 5);
         lowerIntakeButton.toggleWhenPressed(new LowerIntake());
-//        bridgeButton = new JoystickButton(xboxController, 8);
-//        bridgeButton.toggleWhenPressed(new ArmPositionBridge());
+        bridgeButton = new JoystickButton(joystick, 7);
+        bridgeButton.whenPressed(new AutoDrawbridge());
 //        armPositionBridgeButton = new JoystickButton(xboxController, 2);
 //        armPositionBridgeButton.whenPressed(new ArmPositionBridge());
         //spinAndShootButton = new JoystickButton(xboxController, 1);

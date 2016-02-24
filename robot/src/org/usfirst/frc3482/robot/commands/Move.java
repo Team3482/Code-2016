@@ -11,14 +11,15 @@ public class Move extends Command {
 	
 	private double moveValue = -1;
 	private double rotateValue = -1;
-	private double time = -1;
+	private double distance = -1;
 	private double desiredAngle = 0;
 	double rotations;
-	public Move(double moveValue, double rotateValue, double time) {
+	
+	public Move(double moveValue, double rotateValue, double distance) {
     	requires(Robot.chassis);	
     	this.moveValue = moveValue;
     	this.rotateValue = rotateValue;
-    	this.time = time;
+    	this.distance = distance;
     }
 	
 	public Move(double distance) {
@@ -29,7 +30,7 @@ public class Move extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	desiredAngle = Robot.chassis.getCurrentAngle();
-    	rotations = Robot.chassis.distanceToTargetRotations(48);
+    	rotations = Robot.chassis.distanceToTargetRotations(distance);
     }
 
     // Called repeatedly when this Command is scheduled to run

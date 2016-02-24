@@ -14,13 +14,14 @@ public class AutoDrawbridge extends CommandGroup {
     public AutoDrawbridge() {
         requires(Robot.chassis);
     	requires(Robot.arm);
-    	
     	addSequential(new ArmPositionRest());
-    	Timer.delay(.5);
+    	addSequential(new Wait(20)); 
     	addSequential(new ArmPositionDrawReach());
-    	Timer.delay(.5);
-    	//addSequential(new ArmPositionDrawPress());
+    	addSequential(new Wait(20));
+    	addSequential(new ArmPositionDrawPress());
+    	//addSequential(new Move(-0.7, 0.0, 30));
     	//move back and move arm slowly
     	//end in home
     }
+
 }
