@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Chassis extends Subsystem implements PIDOutput {
 
-    private final AnalogInput rangeFinder = RobotMap.chassisrangeFinder;
+    private final AnalogInput rangeFinder = RobotMap.chassisRangeFinder;
     public final AHRS imu = RobotMap.chassisIMU;
     private final CANTalon frontLeft = RobotMap.chassisfrontLeft;
     private final CANTalon backLeft = RobotMap.chassisbackLeft; //encoder
@@ -48,12 +48,32 @@ public class Chassis extends Subsystem implements PIDOutput {
     double driveWheelGearRatio = 12.75;
     double rotateToAngleRate;
     
+    int[] transferFunctionLUT5V =
+    	{
+    		255, 127, 93, 77, 67, 60, 54, 50, 47, 44, 42, 40, 38, 36, 35, 34,
+    		32, 31, 30, 30, 29, 28, 27, 27, 26, 26, 25, 25, 24, 22, 20, 19,
+    		19, 18, 18, 17, 17, 17, 16, 16, 16, 15, 15, 15, 14, 14, 14, 13,
+    		13, 13, 13, 13, 12, 12, 12, 12, 12, 11, 11, 11, 11, 11, 11, 10,
+    		10, 10, 10, 10, 10, 10, 10, 9, 9, 9, 9, 9, 9, 9, 9, 9,
+    		8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 7, 7, 7,
+    		7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 6, 6, 6,
+    		6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
+    		6, 6, 6, 6, 6, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
+    		5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+    	};
+    
     
     public Chassis() {
-    	/*backLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
+    	backLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
     	backLeft.reverseSensor(false);
     	backLeft.configEncoderCodesPerRev(250);
-    	backLeft.configNominalOutputVoltage(+0f, -0f);
+    	/*backLeft.configNominalOutputVoltage(+0f, -0f);
     	backLeft.configPeakOutputVoltage(+12f, -12f);
         
     	backLeft.setAllowableClosedLoopErr(0);
@@ -76,11 +96,10 @@ public class Chassis extends Subsystem implements PIDOutput {
     	backRight.setP(1.5);
     	backRight.setI(0);
     	backRight.setD(0);*/
-    	
-    	
+
     	rotateController = new PIDController(0.01, 0, 0, 0, imu, this);
     	rotateController.setInputRange(-180.0f,  180.0f);
-    	rotateController.setOutputRange(-1.0, 1.0);
+    	rotateController.setOutputRange(-0.5, 0.5);
         rotateController.setAbsoluteTolerance(2f);
         rotateController.setContinuous(true);
     }
@@ -260,22 +279,12 @@ public class Chassis extends Subsystem implements PIDOutput {
 	
 	//moves the robot to a location
 	public void move(double moveValue, double rotateValue) {
-		robotDrive41.arcadeDrive(moveValue, rotateValue);
-	}
-	
-	double rotations = 0;
-	public void setDesiredDistance(double distance) {
-		rotations = distance/driveWheelCircumference*driveWheelGearRatio + backLeft.getPosition();
-		//rotationsL = backLeft.getPosition()+rotations;
+		robotDrive41.arcadeDrive(-moveValue, rotateValue);
 	}
 	//Moves the robot a certain distance (inches) forward
 	public void moveDistance() {
 		robotDrive41.arcadeDrive(0.4, 0.0);
-	}
-	
-	public boolean shouldBeMoving() {
-		return (backLeft.getPosition() < rotations);
-	}
+	} 
 	
 	public void stopMoving() {
 		robotDrive41.arcadeDrive(0.0, 0.0);
@@ -286,15 +295,95 @@ public class Chassis extends Subsystem implements PIDOutput {
 		//rotateToAngle();
 	}
 	
+	public void setUpPID() {
+		// Tuned with a 12.7 Volt battery
+		if (rotateController.getError() < 2) {
+			rotateController.setPID(0.4, 0, 0);
+			rotateController.setOutputRange(-0.4, 0.4);
+		} else if (rotateController.getError() < 5) { 
+			rotateController.setPID(0.15, 0, 0);
+			rotateController.setOutputRange(-0.45, 0.45);
+		} else if (rotateController.getError() < 12) { 
+			rotateController.setPID(0.09, 0, 0);
+			rotateController.setOutputRange(-0.45, 0.45);
+		} else if (rotateController.getError() < 25) {
+			rotateController.setPID(0.04, 0, 0);
+			rotateController.setOutputRange(-0.45, 0.45);
+		} else {
+			rotateController.setPID(0.01, 0, 0);
+			rotateController.setOutputRange(-0.5, 0.5);
+		}
+//			System.out.println("rotate error" + rotateController.getError());
+//			System.out.println("rotating" + rotateToAngleRate);
+//			System.out.println("Angle: " + imu.getAngle());
+	}
+	
 	//Rotates the robot to a given degrees (-180 to 180)
 	public void rotateToAngle(double degrees) {
 		enableRotation();
 		rotateController.setSetpoint(degrees);
-			System.out.println("rotate error" + rotateController.getError());
-			System.out.println("rotating" + rotateToAngleRate);
-			//move(0.0, rotateToAngleRate);
-			//move(0.0,0.0);
-		
+		setUpPID();
+		move(0.0, rotateToAngleRate);
+		//move(0.0,0.0);
+	}
+	
+	public void moveStraight(double speed, double targetRotations, double degrees) {
+		enableRotation();
+		double rotationsL = backLeft.getPosition();
+		double error = (targetRotations - rotationsL);
+		System.out.println("error: " + error);
+		rotateController.setSetpoint(degrees);
+		setUpPID();
+//		if (Math.abs(error) <= 0.5)
+//			speed *= error*2;
+		if (Math.abs(error) < 0.1)
+			move(0.0, rotateToAngleRate);
+		else if (error > 0)
+			move(speed, rotateToAngleRate);
+		else if (error < 0)
+			move(-speed, rotateToAngleRate);
+		else
+			move(0.0, 0.0);
+		//move(0.0,0.0);
+	}
+	
+	//.37 for shoot, acceptable error of .01
+	public void maintainDistanceVoltage(double targetDistanceVoltage, double degrees, double acceptableError) {
+		enableRotation();
+		double currentVoltage = rangeFinder.getAverageVoltage();
+		double estimateCurrentInches = transferFunctionLUT5V[rangeFinder.getValue()/4/4];
+		double error = (targetDistanceVoltage - currentVoltage);
+		System.out.println("error: " + error);
+		rotateController.setSetpoint(degrees);
+		setUpPID();
+//		if (Math.abs(error) <= 0.5)
+//			speed *= error*2;
+		if (Math.abs(error) < acceptableError)
+			move(0.15, 0.0); //move(0.0, rotateToAngleRate);
+		else if (error > 0)
+			move(.6, 0.0); //move(.6, rotateToAngleRate);
+		else if (error < 0)
+			move(0, 0.0); //move(0, rotateToAngleRate);
+		else
+			move(0.0, 0.0);
+		//move(0.0,0.0);
+	}
+	
+	//inches to rotations
+	public double distanceToTargetRotations(double distance) {
+		return distance/driveWheelCircumference + backLeft.getPosition();
+	}
+	
+	public void resetGyro() {
+		imu.reset();
+	}
+	
+	public double getRotateRate() {
+		return rotateToAngleRate;
+	}
+	
+	public double getCurrentAngle() {
+		return imu.getYaw();
 	}
 	
 	public void printRotateInfo() {

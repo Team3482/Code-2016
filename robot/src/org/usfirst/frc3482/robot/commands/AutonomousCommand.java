@@ -15,8 +15,9 @@ public class AutonomousCommand extends CommandGroup {
         requires(Robot.chassis);
         //addSequential(new Move(-0.6, 0.0, 0.1), 3.0);
 //        Timer.delay(1.0);
-//        addSequential(new Move(0.0, 1.0, 0.1), 0.18);
-        addSequential(new Rotate(90, false));
+        //addSequential(new Move(0.7, 0, 0.0), 10.0);
+        //addSequential(new Rotate(90, false));
+        addSequential(new AutoShoot());
         
     }
 

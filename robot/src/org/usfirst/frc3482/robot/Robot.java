@@ -79,7 +79,7 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
-    	Robot.chassis.printRotateInfo();
+    	//Robot.chassis.printRotateInfo();
 		//move(0.0, rotateToAngleRate);
 		//move(0.0,0.0);
 	}
@@ -92,6 +92,7 @@ public class Robot extends IterativeRobot {
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
         //temp
+        Robot.arm.setLowerRest();
         Robot.arm.setUpperHome();
     }
 
@@ -113,7 +114,7 @@ public class Robot extends IterativeRobot {
         
         Robot.intake.maintainPosition();
         Robot.arm.maintainLowerJointPosition();
-        //Robot.arm.maintainUpperJointPosition();
+        Robot.arm.maintainUpperJointPosition();
     }
 
     /**

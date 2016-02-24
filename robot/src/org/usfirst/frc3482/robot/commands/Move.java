@@ -12,10 +12,10 @@ public class Move extends Command {
 	private double moveValue = -1;
 	private double rotateValue = -1;
 	private double time = -1;
-
+	private double desiredAngle = 0;
+	double rotations;
 	public Move(double moveValue, double rotateValue, double time) {
-    	requires(Robot.chassis);
-    	
+    	requires(Robot.chassis);	
     	this.moveValue = moveValue;
     	this.rotateValue = rotateValue;
     	this.time = time;
@@ -28,11 +28,15 @@ public class Move extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	desiredAngle = Robot.chassis.getCurrentAngle();
+    	rotations = Robot.chassis.distanceToTargetRotations(48);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.chassis.move(moveValue, rotateValue);
+    	System.out.println("Straight line at " + desiredAngle + "degrees");
+    	Robot.chassis.moveStraight(moveValue, rotations, desiredAngle);
+    	//Robot.chassis
 //    	if(time != -1) {
 //	    	//disabled safety and moves to a location
 //			Robot.chassis.setSafety(false);
@@ -56,6 +60,7 @@ public class Move extends Command {
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.chassis.stopMoving();
     }
 
     // Called when another command which requires one or more of the same

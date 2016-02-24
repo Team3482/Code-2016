@@ -28,7 +28,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
  */
 public class RobotMap {
     
-	public static AnalogInput chassisrangeFinder;
+	public static AnalogInput chassisRangeFinder;
     public static AHRS chassisIMU;
     public static CANTalon chassisfrontLeft;
     public static CANTalon chassisbackLeft;
@@ -46,6 +46,7 @@ public class RobotMap {
     
     public static void init() {
     	//TODO: Initialize range finder
+    	chassisRangeFinder = new AnalogInput(1);
         //LiveWindow.addSensor("Chassis", "rangeFinder", chassisrangeFinder);
         
         try{

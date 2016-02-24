@@ -37,6 +37,8 @@ public class Intake extends Subsystem {
 	/*final double lowerPosition = -33.679; //intake
 	final double restPosition = .517;
 	final double portPosition = -53.650;*/
+	//0.661
+	//-35.325
 	double targetPositionRotations;
     boolean isPID = true;
     
@@ -64,7 +66,7 @@ public class Intake extends Subsystem {
         
         startPosition = intake.getPosition();
         restPosition = startPosition-3.986;
-        lowerPosition = startPosition-32.5;
+        lowerPosition = startPosition-36.106;
 		portPosition = startPosition-47.027;
         targetPositionRotations = restPosition;
     }

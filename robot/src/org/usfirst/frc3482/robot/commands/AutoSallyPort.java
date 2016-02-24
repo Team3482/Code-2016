@@ -15,7 +15,6 @@ public class AutoSallyPort extends CommandGroup {
         requires(Robot.chassis);
     	requires(Robot.arm);
     	
-    	//addSequential(new ArmPositionRest(), 1.0);
     	addSequential(new ArmPositionSally());
     	//move back and turn
     	//end in home

@@ -98,7 +98,7 @@ public class Arm extends Subsystem {
 		upperRestPosition = 0;
 		upperHomePosition = .938;
 		sallyLowerPosition = 0.314;
-		sallyUpperPosition = 0.4;
+		sallyUpperPosition = 0.42; //.4
 		drawReachLowerPosition = .382;
 		drawReachUpperPosition = .214;
 		drawPressLowerPosition = .463;

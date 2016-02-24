@@ -58,7 +58,7 @@ public class OI {
         runWheelsOnGroundButton = new JoystickButton(joystick, 7);
         runWheelsOnGroundButton.whileHeld(new RunWheelsOnGround());
         sallyPortButton = new JoystickButton(joystick, 11);
-        sallyPortButton.whenPressed(new AutoSallyPort());
+        sallyPortButton.whenPressed(new ArmPositionSally());
         //portcullisButton = new JoystickButton(joystick, 12);
         //portcullisButton.whileHeld(new ArmPositionPortCullis());
         armRestButton = new JoystickButton(joystick, 8);
