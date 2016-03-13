@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ArmPositionDrawPress extends Command {
+public class ArmPositionDrawPressMore extends Command {
 	
-    public ArmPositionDrawPress() {
+    public ArmPositionDrawPressMore() {
     	requires(Robot.chassis);
     	requires(Robot.arm);
     }
@@ -21,8 +21,7 @@ public class ArmPositionDrawPress extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.arm.setLowerDrawPress();
-    	Robot.arm.setUpperDrawPress();
+    	Robot.arm.setLowerDrawPressMore();
     }
 
     // Make this return true when this Command no longer needs to run execute()

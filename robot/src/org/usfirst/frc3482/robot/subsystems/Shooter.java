@@ -25,7 +25,7 @@ public class Shooter extends Subsystem {
 
     private final CANTalon shooter = RobotMap.shootershooter;
     
-    double targetSpeed = 15800.0;
+    double targetSpeed = 100.0;
     int loops = 0;
     StringBuilder sb = new StringBuilder();
 
@@ -49,6 +49,7 @@ public class Shooter extends Subsystem {
     public void run() {
     	shooter.changeControlMode(TalonControlMode.PercentVbus);
     	shooter.set(1.0);
+    	System.out.println("Speed: " + shooter.getSpeed());
     }
     public void setTargetSpeed(double speed) {
     	targetSpeed = speed;

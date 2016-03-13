@@ -10,8 +10,9 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class AutoShoot extends Command {
 	
-	boolean finished = false;
-
+	boolean finished;
+	int loop;
+	
     public AutoShoot() {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -22,19 +23,21 @@ public class AutoShoot extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	loop = 0;
+    	finished = false;
     }
 
     // Called repeatedly when this Command is scheduled to run
-    int loop = 0;
+    
     protected void execute() {
-    	Robot.chassis.maintainDistanceVoltage(.37, .01, 0.0);
+    	Robot.chassis.maintainDistanceVoltage(.65, 0, 0.015); //0.65, 0.015    then .72     then .69
     	loop++;
-    	if(loop >= 60) {
+    	if(loop >= 60-60) {
     		System.out.println(loop);
-    		Robot.shooter.spin();
-    		if(loop >= 125) {
+    		Robot.shooter.run();
+    		if(loop >= 125-60) {
     			Robot.intake.startFeed();
-    			if(loop >= 150) {
+    			if(loop >= 150-60) {
     				Robot.intake.stopFeed();
     				Robot.shooter.stopSpin();
     				finished = true;

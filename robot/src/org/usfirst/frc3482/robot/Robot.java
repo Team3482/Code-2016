@@ -51,7 +51,7 @@ public class Robot extends IterativeRobot {
         // pointers. Bad news. Don't move it.
         oi = new OI();
         chassis.invertMotors();
-         
+
         //instantiate the command used for the autonomous and teleop period
         autonomousCommand = new AutonomousCommand();
         teleopCommand = new Drive();
@@ -62,16 +62,21 @@ public class Robot extends IterativeRobot {
      * You can use it to reset subsystems before shutting down.
      */
     public void disabledInit(){
-    	
+
     }
 
     public void disabledPeriodic() {
         Scheduler.getInstance().run();
+    	//System.out.println(Robot.chassis.rangeFinder.getAverageVoltage());
+        //System.out.println(Robot.chassis.imu.getYaw());
     }
 
     public void autonomousInit() {
         // schedule the autonomous command (example)
         if (autonomousCommand != null) autonomousCommand.start();
+        Robot.chassis.resetGyro();
+        Robot.arm.setLowerRest();
+        Robot.arm.setUpperHome();
     }
 
     /**
@@ -79,6 +84,11 @@ public class Robot extends IterativeRobot {
      */
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
+        
+        Robot.intake.maintainPosition();
+		Robot.arm.maintainLowerJointPosition();
+        Robot.arm.maintainUpperJointPosition();
+        
     	//Robot.chassis.printRotateInfo();
 		//move(0.0, rotateToAngleRate);
 		//move(0.0,0.0);
@@ -91,7 +101,7 @@ public class Robot extends IterativeRobot {
         // continue until interrupted by another command, remove
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
-        //temp
+        Robot.chassis.resetGyro();
         Robot.arm.setLowerRest();
         Robot.arm.setUpperHome();
     }
@@ -115,6 +125,7 @@ public class Robot extends IterativeRobot {
         Robot.intake.maintainPosition();
         Robot.arm.maintainLowerJointPosition();
         Robot.arm.maintainUpperJointPosition();
+        //System.out.println(Robot.chassis.imu.getYaw());
     }
 
     /**
@@ -122,5 +133,7 @@ public class Robot extends IterativeRobot {
      */
     public void testPeriodic() {
         LiveWindow.run();
+        //Robot.arm.checkLower();
+        //Robot.arm.checkUpper();
     }
 }

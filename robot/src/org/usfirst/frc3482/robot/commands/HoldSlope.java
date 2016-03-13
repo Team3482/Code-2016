@@ -2,17 +2,17 @@ package org.usfirst.frc3482.robot.commands;
 
 import org.usfirst.frc3482.robot.Robot;
 
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ArmPositionDrawPress extends Command {
-	
-    public ArmPositionDrawPress() {
-    	requires(Robot.chassis);
-    	requires(Robot.arm);
+public class HoldSlope extends Command {
+
+    public HoldSlope() {
+        requires(Robot.chassis);
+        requires(Robot.arm);
+        requires(Robot.intake);
     }
 
     // Called just before this Command runs the first time
@@ -21,22 +21,21 @@ public class ArmPositionDrawPress extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.arm.setLowerDrawPress();
-    	Robot.arm.setUpperDrawPress();
+    	Robot.chassis.move(Robot.chassis.holdSpeed, 0);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return true;
+        return false;
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	Robot.chassis.stopMoving();
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
-    	end();
     }
 }

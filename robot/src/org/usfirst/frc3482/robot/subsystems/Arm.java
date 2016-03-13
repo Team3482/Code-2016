@@ -45,7 +45,10 @@ public class Arm extends Subsystem {
 	final double drawReachLowerPosition;
 	final double drawReachUpperPosition;
 	final double drawPressLowerPosition;
+	final double drawPressMoreLowerPosition;
 	final double drawPressUpperPosition;
+	//final double lowerMax;
+	//final double upperMax;
 	
 	double targetLowerPositionRotations;
 	double targetUpperPositionRotations;
@@ -100,9 +103,13 @@ public class Arm extends Subsystem {
 		sallyLowerPosition = 0.314;
 		sallyUpperPosition = 0.42; //.4
 		drawReachLowerPosition = .382;
-		drawReachUpperPosition = .214;
-		drawPressLowerPosition = .463;
+		drawReachUpperPosition = .114; //.214
+		drawPressLowerPosition = .245;
+		drawPressMoreLowerPosition = .486;
 		drawPressUpperPosition = 1.274;
+		
+		//lowerMax = 0;
+		//upperMax = 0;
 
 		targetLowerPositionRotations = lowerRestPosition;
 		targetUpperPositionRotations = upperRestPosition;
@@ -116,14 +123,14 @@ public class Arm extends Subsystem {
 	  	sb.append("\tpos:");
         sb.append(lowerJoint.getPosition() );
         lowerJoint.changeControlMode(TalonControlMode.Position);
-    	lowerJoint.set(targetLowerPositionRotations);
+    	//lowerJoint.set(targetLowerPositionRotations);
     	sb.append("\terrNative:");
     	sb.append(lowerJoint.getClosedLoopError());
     	sb.append("\ttrg:");
     	sb.append(targetLowerPositionRotations);
     	if(++loopsL >= 10) {
           	loopsL = 0;
-          	System.out.println(sb.toString());
+          	//System.out.println(sb.toString());
         }
         sb.setLength(0);
     }
@@ -136,17 +143,31 @@ public class Arm extends Subsystem {
 	  	sb.append("\tpos:");
         sb.append(upperJoint.getPosition() );
         upperJoint.changeControlMode(TalonControlMode.Position);
-    	upperJoint.set(targetUpperPositionRotations);
+    	//upperJoint.set(targetUpperPositionRotations);
     	sb.append("\terrNative:");
     	sb.append(upperJoint.getClosedLoopError());
     	sb.append("\ttrg:");
     	sb.append(targetUpperPositionRotations);
     	if(++loopsU >= 10) {
           	loopsU = 0;
-          	System.out.println(sb.toString());
+          	//System.out.println(sb.toString());
         }
         sb.setLength(0);
     }
+    
+    /*public void checkLower() {
+    	if(lowerJoint.getPosition() > lowerMax) {
+    		lowerJoint.changeControlMode(TalonControlMode.Position);
+    		lowerJoint.set(lowerMax);
+    	}
+    }
+    
+    public void checkUpper() {
+    	if(upperJoint.getPosition() > upperMax) {
+    		upperJoint.changeControlMode(TalonControlMode.Position);
+    		upperJoint.set(upperMax);
+    	}
+    }*/
     
     public void setLowerRest() {
     	targetLowerPositionRotations = lowerRestPosition;
@@ -173,6 +194,9 @@ public class Arm extends Subsystem {
     }
     public void setLowerDrawPress() {
     	targetLowerPositionRotations = drawPressLowerPosition;
+    }
+    public void setLowerDrawPressMore() {
+    	targetLowerPositionRotations = drawPressMoreLowerPosition;
     }
     public void setUpperDrawPress() {
     	targetUpperPositionRotations = drawPressUpperPosition;

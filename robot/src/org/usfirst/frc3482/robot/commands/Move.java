@@ -30,6 +30,9 @@ public class Move extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	desiredAngle = Robot.chassis.getCurrentAngle();
+    	if(moveValue < 0 && distance > 0) {
+    		distance = -distance;
+    	}
     	rotations = Robot.chassis.distanceToTargetRotations(distance);
     }
 

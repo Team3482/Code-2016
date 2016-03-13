@@ -27,7 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class Chassis extends Subsystem implements PIDOutput {
 
-    private final AnalogInput rangeFinder = RobotMap.chassisRangeFinder;
+    public final AnalogInput rangeFinder = RobotMap.chassisRangeFinder;
     public final AHRS imu = RobotMap.chassisIMU;
     private final CANTalon frontLeft = RobotMap.chassisfrontLeft;
     private final CANTalon backLeft = RobotMap.chassisbackLeft; //encoder
@@ -47,6 +47,9 @@ public class Chassis extends Subsystem implements PIDOutput {
     double driveWheelCircumference = driveWheelDiameter*Math.PI;
     double driveWheelGearRatio = 12.75;
     double rotateToAngleRate;
+    double maxTurningSpeed = .75;
+    
+    public final double holdSpeed = .25;
     
     int[] transferFunctionLUT5V =
     	{
@@ -145,7 +148,7 @@ public class Chassis extends Subsystem implements PIDOutput {
 		double rightX = s.getRawAxis(4);
 		//System.out.println("xaxis: " + rightX);
 		//System.out.println("yaxis: " + leftY);
-		double deadZone = 0.0;
+		double deadZone = 0.1;
 
 		if (leftY < deadZone && leftY > -deadZone) {
 			leftY = 0;
@@ -153,7 +156,10 @@ public class Chassis extends Subsystem implements PIDOutput {
 		if (rightX < deadZone && rightX > -deadZone) {
 			rightX = 0;
 		}
-		robotDrive41.arcadeDrive(leftY, rightX);
+		if(leftY == 0 && rightX == 0) {
+			return;
+		}
+		robotDrive41.arcadeDrive(leftY, rightX*maxTurningSpeed);
 	}
 	
 	public void imuData() {
@@ -297,25 +303,26 @@ public class Chassis extends Subsystem implements PIDOutput {
 	
 	public void setUpPID() {
 		// Tuned with a 12.7 Volt battery
-		if (rotateController.getError() < 2) {
+		double max = 0.55;
+		if (Math.abs(rotateController.getError()) < 2) {
 			rotateController.setPID(0.4, 0, 0);
-			rotateController.setOutputRange(-0.4, 0.4);
-		} else if (rotateController.getError() < 5) { 
-			rotateController.setPID(0.15, 0, 0);
 			rotateController.setOutputRange(-0.45, 0.45);
-		} else if (rotateController.getError() < 12) { 
-			rotateController.setPID(0.09, 0, 0);
+		} else if (Math.abs(rotateController.getError()) < 5) { 
+			rotateController.setPID(0.35, 0, 0);
 			rotateController.setOutputRange(-0.45, 0.45);
-		} else if (rotateController.getError() < 25) {
-			rotateController.setPID(0.04, 0, 0);
-			rotateController.setOutputRange(-0.45, 0.45);
+		} else if (Math.abs(rotateController.getError()) < 12) { 
+			rotateController.setPID(0.25, 0, 0);
+			rotateController.setOutputRange(-max, max);
+		} else if (Math.abs(rotateController.getError()) < 25) {
+			rotateController.setPID(0.08, 0, 0);
+			rotateController.setOutputRange(-max, max);
 		} else {
-			rotateController.setPID(0.01, 0, 0);
-			rotateController.setOutputRange(-0.5, 0.5);
+			rotateController.setPID(0.02, 0, 0);
+			rotateController.setOutputRange(-max, max);
 		}
-//			System.out.println("rotate error" + rotateController.getError());
-//			System.out.println("rotating" + rotateToAngleRate);
-//			System.out.println("Angle: " + imu.getAngle());
+			System.out.print("rotate error" + rotateController.getError());
+			System.out.print("rotating" + rotateToAngleRate);
+			System.out.println("Angle: " + imu.getAngle());
 	}
 	
 	//Rotates the robot to a given degrees (-180 to 180)
@@ -324,6 +331,8 @@ public class Chassis extends Subsystem implements PIDOutput {
 		rotateController.setSetpoint(degrees);
 		setUpPID();
 		move(0.0, rotateToAngleRate);
+		//System.out.println(rotateController.getAvgError());
+		//System.out.println("angle"+imu.getYaw()+" setpoint"+rotateController.getSetpoint());
 		//move(0.0,0.0);
 	}
 	
@@ -359,9 +368,9 @@ public class Chassis extends Subsystem implements PIDOutput {
 //		if (Math.abs(error) <= 0.5)
 //			speed *= error*2;
 		if (Math.abs(error) < acceptableError)
-			move(0.15, 0.0); //move(0.0, rotateToAngleRate);
+			move(holdSpeed + 0.1, 0.0); //move(0.0, rotateToAngleRate);
 		else if (error > 0)
-			move(.6, 0.0); //move(.6, rotateToAngleRate);
+			move(.6, 0.0); //move(.6, rotateToAngleRate); //.6
 		else if (error < 0)
 			move(0, 0.0); //move(0, rotateToAngleRate);
 		else
