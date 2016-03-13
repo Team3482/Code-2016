@@ -298,7 +298,16 @@ public class Chassis extends Subsystem implements PIDOutput {
 	
 	//Rotates the robot by a given degrees
 	public void rotateByAngle(double degrees) {
-		//rotateToAngle();
+		double currentAngle = imu.getYaw();
+		double absoluteAngle = currentAngle + degrees;
+		if(absoluteAngle > 180) {
+			double diff = absoluteAngle-180;
+			absoluteAngle = -180 + diff;
+		} else if(absoluteAngle < -180) {
+			double diff = absoluteAngle+180;
+			absoluteAngle = 180 + diff;
+		}
+		rotateToAngle(absoluteAngle);
 	}
 	
 	public void setUpPID() {

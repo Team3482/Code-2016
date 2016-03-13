@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj.Joystick.RumbleType;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.networktables.NetworkTable;
+
+import java.io.IOException;
 
 import org.usfirst.frc3482.robot.commands.*;
 import org.usfirst.frc3482.robot.subsystems.*;
@@ -32,6 +35,11 @@ public class Robot extends IterativeRobot {
     public static Climber climber;
     public static Camera camera;
     
+    private static final NetworkTable grip = NetworkTable.getTable("grip");
+    public static double targetCenterX;
+    public static double targetCenterY;
+    
+    
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -51,7 +59,13 @@ public class Robot extends IterativeRobot {
         // pointers. Bad news. Don't move it.
         oi = new OI();
         chassis.invertMotors();
-
+        
+        try {
+            new ProcessBuilder("/home/lvuser/grip").inheritIO().start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
         //instantiate the command used for the autonomous and teleop period
         autonomousCommand = new AutonomousCommand();
         teleopCommand = new Drive();
@@ -88,6 +102,25 @@ public class Robot extends IterativeRobot {
         Robot.intake.maintainPosition();
 		Robot.arm.maintainLowerJointPosition();
         Robot.arm.maintainUpperJointPosition();
+        
+        int index = -1;
+        double maxArea = -1;
+        double[] areas = grip.getNumberArray("targets/area", new double[0]);
+        double[] centerXs = grip.getNumberArray("targets/area", new double[0]);
+        double[] centerYs = grip.getNumberArray("targets/area", new double[0]);
+        
+        for (int i=0;i<areas.length;i++) {
+            System.out.println("Got contour with area=" + areas[i]);
+            if(areas[i] > maxArea) {
+            	index = i;
+            	maxArea = areas[i];
+            }
+        }
+        if(index != -1) {
+        	targetCenterX = centerXs[index];
+        	targetCenterY = centerYs[index];
+        }
+        System.out.println("Auto Loop");
         
     	//Robot.chassis.printRotateInfo();
 		//move(0.0, rotateToAngleRate);
