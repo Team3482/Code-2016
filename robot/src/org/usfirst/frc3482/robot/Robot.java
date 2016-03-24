@@ -35,7 +35,7 @@ public class Robot extends IterativeRobot {
     public static Climber climber;
     public static Camera camera;
     
-    private static final NetworkTable grip = NetworkTable.getTable("grip");
+    //private static final NetworkTable grip = NetworkTable.getTable("grip");
     public static double targetCenterX;
     public static double targetCenterY;
     
@@ -60,11 +60,11 @@ public class Robot extends IterativeRobot {
         oi = new OI();
         chassis.invertMotors();
         
-        try {
+        /*try {
             new ProcessBuilder("/home/lvuser/grip").inheritIO().start();
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }*/
         
         //instantiate the command used for the autonomous and teleop period
         autonomousCommand = new AutonomousCommand();
@@ -103,11 +103,11 @@ public class Robot extends IterativeRobot {
 		Robot.arm.maintainLowerJointPosition();
         Robot.arm.maintainUpperJointPosition();
         
-        int index = -1;
+        /*int index = -1;
         double maxArea = -1;
         double[] areas = grip.getNumberArray("targets/area", new double[0]);
-        double[] centerXs = grip.getNumberArray("targets/area", new double[0]);
-        double[] centerYs = grip.getNumberArray("targets/area", new double[0]);
+        double[] centerXs = grip.getNumberArray("targets/centerX", new double[0]);
+        double[] centerYs = grip.getNumberArray("targets/centerY", new double[0]);
         
         for (int i=0;i<areas.length;i++) {
             System.out.println("Got contour with area=" + areas[i]);
@@ -120,7 +120,7 @@ public class Robot extends IterativeRobot {
         	targetCenterX = centerXs[index];
         	targetCenterY = centerYs[index];
         }
-        System.out.println("Auto Loop");
+        System.out.println("Auto Loop");*/
         
     	//Robot.chassis.printRotateInfo();
 		//move(0.0, rotateToAngleRate);

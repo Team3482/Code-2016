@@ -80,7 +80,7 @@ public class OI {
         bridgeButton = new JoystickButton(arcadeButtons, 11);
         bridgeButton.whenPressed(new AutoDrawbridge());
         armHomeButton = new JoystickButton(arcadeButtons, 12);
-        armHomeButton.whenPressed(new ArmPositionHome());
+        armHomeButton.whenPressed(new MoveIntake(false));
                 
   
        	spinIntakeWheelsButton = new JoystickButton(joystick, 4);

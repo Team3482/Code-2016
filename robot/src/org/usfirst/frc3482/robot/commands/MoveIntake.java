@@ -8,15 +8,26 @@ import org.usfirst.frc3482.robot.Robot;
  */
 public class MoveIntake extends Command {
 	
+	boolean wheels;
+	
     public MoveIntake() {
         requires(Robot.chassis);
     	requires(Robot.intake);
+    	wheels = true;
+    }
+    
+    public MoveIntake(boolean b) {
+        requires(Robot.chassis);
+    	requires(Robot.intake);
+    	wheels = b;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	Robot.intake.stopPID();
-    	//Robot.intake.runWheels();
+    	if(wheels) {
+        	Robot.intake.runWheels();    		
+    	}
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -32,6 +43,7 @@ public class MoveIntake extends Command {
     // Called once after isFinished returns true
     protected void end() {
     	//Robot.intake.stopWheels();
+    	Robot.intake.stopWheels();
     	Robot.intake.startPID();
     }
 

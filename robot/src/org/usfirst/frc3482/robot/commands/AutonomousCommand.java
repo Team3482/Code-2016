@@ -42,16 +42,16 @@ public class AutonomousCommand extends CommandGroup {
 	        addSequential(new Rotate(90, false), 5.0);
         } else {*/
         	if (SmartDashboard.getBoolean("Cheval de Fris")) {
-	        	Robot.intake.setTargetPortcullis();
+	        	//Robot.intake.setTargetPortcullis();
 	        //} else if(SmartDashboard.getBoolean("Low Bar")) {
-	        } else if(false) {
-	        	addParallel(new Move(0.7, 0, 150), 5.0);
-	        	addSequential(new LowerIntake());
+	        } else if(true) {
+	        	Robot.intake.setTargetLower();
+	        	addSequential(new Move(0.7, 0, 10000), 3.0);
 	        } else if (SmartDashboard.getBoolean("Port Cullis")) {
-	        	Robot.intake.setTargetPortcullis();
-	        	addSequential(new Move(.7, 0, 5), 5.0);
-	        	Robot.intake.setTargetRest();
-	        	addSequential(new Move(.5, 0, 12));
+	        	//Robot.intake.setTargetPortcullis();
+	        	//addSequential(new Move(.7, 0, 5), 5.0);
+	        	//Robot.intake.setTargetRest();
+	        	//addSequential(new Move(.5, 0, 12));
 	        } //else if(SmartDashboard.getBoolean("GUN IT")) {
 	        else if(false) {
 	        	System.out.println("GUNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
@@ -60,16 +60,16 @@ public class AutonomousCommand extends CommandGroup {
         	
         	//full auto
         	int position = 4; //2,3,4,5
-        	if(true) {
+        	if(false) {
         		if(position == 4) {
         			addSequential(new Move(1, 0, -1000), 1.75);
         			addSequential(new Rotate(180, false), 5);
         			double targetAngleOffset = Robot.camera.targetAngleOffset();
         			double targetDistance = Robot.camera.targetDistance();
-        			addSequential(new Rotate(targetAngleOffset+20, true));
+        			addSequential(new Rotate(targetAngleOffset+20 , true));
         			addSequential(new Move(.7, 0, targetDistance-(4*12+2)), 5);
         			//addSequential(new ApproachTarget(4*12+2), 10);
-        			addSequential(new Rotate(0, false), 5);
+        			addSequential(new Rotate(180, false), 5);
         			addSequential(new AutoShoot());
         		} else if(position == 3) {
         			//todo
@@ -77,6 +77,12 @@ public class AutonomousCommand extends CommandGroup {
         			//same as 4?
         		} else if(position == 2) {
         			//todo
+        		} else if(position == 1) {
+        			addParallel(new Move(0.7, 0, 150), 5.0);
+    	        	addSequential(new LowerIntake());
+    	        	//addSequential(new Move(.7, 50, .015))
+    	        	addSequential(new Rotate(45, false), 5);
+    	        	addSequential(new AutoShoot());
         		}
         	}
 	        //addSequential(new Move(0.7, 0, 150), 5.0);

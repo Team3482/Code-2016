@@ -12,7 +12,9 @@ public class Move extends Command {
 	private double moveValue = -1;
 	private double rotateValue = -1;
 	private double distance = -1;
+	private double voltage = -1;
 	private double desiredAngle = 0;
+	private double acceptableError;
 	double rotations;
 	
 	public Move(double moveValue, double rotateValue, double distance) {
@@ -22,6 +24,13 @@ public class Move extends Command {
     	this.distance = distance;
     }
 	
+	public Move(double speed, double maintainVoltage, double acceptableError, boolean b) {
+		requires(Robot.chassis);
+		this.moveValue = speed;
+		this.voltage = maintainVoltage;
+		this.acceptableError = acceptableError;
+	}
+	
 	public Move(double distance) {
     	requires(Robot.chassis);
     	moveValue = distance;
@@ -29,17 +38,25 @@ public class Move extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	desiredAngle = Robot.chassis.getCurrentAngle();
-    	if(moveValue < 0 && distance > 0) {
-    		distance = -distance;
+    	if(voltage == -1) {
+	    	desiredAngle = Robot.chassis.getCurrentAngle();
+	    	if(moveValue < 0 && distance > 0) {
+	    		distance = -distance;
+	    	}
+	    	rotations = Robot.chassis.distanceToTargetRotations(distance);
     	}
-    	rotations = Robot.chassis.distanceToTargetRotations(distance);
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	System.out.println("Straight line at " + desiredAngle + "degrees");
-    	Robot.chassis.moveStraight(moveValue, rotations, desiredAngle);
+    	if(voltage == -1) {
+	    	System.out.println("Straight line at " + desiredAngle + "degrees");
+	    	Robot.chassis.moveStraight(moveValue, rotations, desiredAngle);
+    	} else {
+    		Robot.chassis.maintainDistanceVoltage(voltage, 0, acceptableError, false);
+    	}
+    	
+    	
     	//Robot.chassis
 //    	if(time != -1) {
 //	    	//disabled safety and moves to a location

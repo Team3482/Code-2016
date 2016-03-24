@@ -15,8 +15,8 @@ public class Camera extends Subsystem {
 
 	//private CameraServer server;
 	private double tilt = Math.toRadians(31);			//check
-	private double hT = 226.06;							//check
-	private double hc = 29.21;							//check
+	private double hT = 7*12+1;							//check
+	private double hc = 14	;							//check
 	private double wc = 10;								//check
 	private double FOVx = 640;
 	private double FOVy = 480;

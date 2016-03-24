@@ -366,7 +366,7 @@ public class Chassis extends Subsystem implements PIDOutput {
 	}
 	
 	//.37 for shoot, acceptable error of .01
-	public void maintainDistanceVoltage(double targetDistanceVoltage, double degrees, double acceptableError) {
+	public void maintainDistanceVoltage(double targetDistanceVoltage, double degrees, double acceptableError, boolean hold) {
 		enableRotation();
 		double currentVoltage = rangeFinder.getAverageVoltage();
 		double estimateCurrentInches = transferFunctionLUT5V[rangeFinder.getValue()/4/4];
@@ -376,14 +376,19 @@ public class Chassis extends Subsystem implements PIDOutput {
 		setUpPID();
 //		if (Math.abs(error) <= 0.5)
 //			speed *= error*2;
-		if (Math.abs(error) < acceptableError)
+		if (Math.abs(error) < acceptableError) {
+			if(hold) {
 			move(holdSpeed + 0.1, 0.0); //move(0.0, rotateToAngleRate);
-		else if (error > 0)
+			} else {
+				move(0,0);
+			}
+		} else if (error > 0) {
 			move(.6, 0.0); //move(.6, rotateToAngleRate); //.6
-		else if (error < 0)
+		} else if (error < 0) {
 			move(0, 0.0); //move(0, rotateToAngleRate);
-		else
+		} else {
 			move(0.0, 0.0);
+		}
 		//move(0.0,0.0);
 	}
 	

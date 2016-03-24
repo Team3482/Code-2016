@@ -30,7 +30,7 @@ public class AutoShoot extends Command {
     // Called repeatedly when this Command is scheduled to run
     
     protected void execute() {
-    	Robot.chassis.maintainDistanceVoltage(.65, 0, 0.015); //0.65, 0.015    then .72     then .69
+    	Robot.chassis.maintainDistanceVoltage(.65, 0, 0.015, true); //0.65, 0.015    then .72     then .69
     	loop++;
     	if(loop >= 60-60) {
     		System.out.println(loop);
