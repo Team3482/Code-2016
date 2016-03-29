@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.io.IOException;
 
@@ -154,8 +155,11 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         Robot.chassis.driveWithXboxController(Robot.oi.getxboxController());
-        
-        Robot.intake.maintainPosition();
+        SmartDashboard.putNumber("Gyro Angle", Robot.chassis.getCurrentAngle());
+        SmartDashboard.putNumber("Target Angle", Robot.chassis.getTargetAngle());
+        SmartDashboard.putNumber("Rotating Output", Robot.chassis.getOutput());
+        SmartDashboard.putNumber("RangeFinder Voltage", Robot.chassis.getRangeFinderVoltage());
+        //Robot.intake.maintainPosition();
         Robot.arm.maintainLowerJointPosition();
         Robot.arm.maintainUpperJointPosition();
         //System.out.println(Robot.chassis.imu.getYaw());

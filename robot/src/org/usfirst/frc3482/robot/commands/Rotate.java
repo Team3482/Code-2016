@@ -31,7 +31,7 @@ public class Rotate extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	System.out.println("Rotating");
-    	if(loops <= 50) {
+    	if(loops <= 150) {
 	    	if(isRelative) {
 	    		Robot.chassis.rotateByAngle(rotateValue);
 	    	} else {

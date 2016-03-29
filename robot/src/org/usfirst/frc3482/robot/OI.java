@@ -113,6 +113,10 @@ public class OI {
         SmartDashboard.putBoolean("Waiting", false);
         SmartDashboard.putBoolean("GUN IT", false);
         SmartDashboard.putNumber("Position", 1);
+        SmartDashboard.putNumber("Maximum Turn Output", 0.8);
+        SmartDashboard.putNumber("Gyro P", 0.01);
+        SmartDashboard.putNumber("Gyro I", 0.001);
+        SmartDashboard.putNumber("Gyro D", 0.0);
         //SmartDashboard.putData("Move", new Move());
         SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
         SmartDashboard.putData("Drive", new Drive());

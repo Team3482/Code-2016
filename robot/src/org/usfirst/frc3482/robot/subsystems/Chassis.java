@@ -51,7 +51,7 @@ public class Chassis extends Subsystem implements PIDOutput {
     
     public final double holdSpeed = .25;
     
-    int[] transferFunctionLUT5V =
+/*    int[] transferFunctionLUT5V =
     	{
     		255, 127, 93, 77, 67, 60, 54, 50, 47, 44, 42, 40, 38, 36, 35, 34,
     		32, 31, 30, 30, 29, 28, 27, 27, 26, 26, 25, 25, 24, 22, 20, 19,
@@ -70,7 +70,7 @@ public class Chassis extends Subsystem implements PIDOutput {
     		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     		0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
     	};
-    
+  */  
     
     public Chassis() {
     	backLeft.setFeedbackDevice(FeedbackDevice.QuadEncoder);
@@ -312,8 +312,14 @@ public class Chassis extends Subsystem implements PIDOutput {
 	
 	public void setUpPID() {
 		// Tuned with a 12.7 Volt battery
-		double max = 0.55;
-		if (Math.abs(rotateController.getError()) < 2) {
+		double max = SmartDashboard.getNumber("Maximum Turn Output");
+		rotateController.setOutputRange(-max, max);
+		double P = SmartDashboard.getNumber("Gyro P", 0.01);
+		double I = SmartDashboard.getNumber("Gyro I", 0.001) / 10.0;
+		double D = SmartDashboard.getNumber("Gyro D", 0.0);
+		//P = P / Math.abs(rotateController.getError());
+		rotateController.setPID(P, I, D);
+		/*if (Math.abs(rotateController.getError()) < 2) {
 			rotateController.setPID(0.4, 0, 0);
 			rotateController.setOutputRange(-0.45, 0.45);
 		} else if (Math.abs(rotateController.getError()) < 5) { 
@@ -328,7 +334,7 @@ public class Chassis extends Subsystem implements PIDOutput {
 		} else {
 			rotateController.setPID(0.02, 0, 0);
 			rotateController.setOutputRange(-max, max);
-		}
+		}*/
 			System.out.print("rotate error" + rotateController.getError());
 			System.out.print("rotating" + rotateToAngleRate);
 			System.out.println("Angle: " + imu.getAngle());
@@ -365,11 +371,15 @@ public class Chassis extends Subsystem implements PIDOutput {
 		//move(0.0,0.0);
 	}
 	
+	public double getRangeFinderVoltage() {
+		return rangeFinder.getAverageVoltage();
+	}
+	
 	//.37 for shoot, acceptable error of .01
 	public void maintainDistanceVoltage(double targetDistanceVoltage, double degrees, double acceptableError, boolean hold) {
 		enableRotation();
 		double currentVoltage = rangeFinder.getAverageVoltage();
-		double estimateCurrentInches = transferFunctionLUT5V[rangeFinder.getValue()/4/4];
+		//double estimateCurrentInches = transferFunctionLUT5V[rangeFinder.getValue()/4/4];
 		double error = (targetDistanceVoltage - currentVoltage);
 		System.out.println("error: " + error);
 		rotateController.setSetpoint(degrees);
@@ -405,6 +415,13 @@ public class Chassis extends Subsystem implements PIDOutput {
 		return rotateToAngleRate;
 	}
 	
+	public double getTargetAngle() {
+		return rotateController.getSetpoint();
+	}
+	
+	public double getOutput() {
+		return rotateToAngleRate;
+	}
 	public double getCurrentAngle() {
 		return imu.getYaw();
 	}

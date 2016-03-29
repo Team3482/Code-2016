@@ -56,13 +56,13 @@ public class RobotMap {
     	}
         LiveWindow.addSensor("IMU", "Gyro", chassisIMU);
         
-        chassisfrontLeft = new CANTalon(0);
+        chassisfrontLeft = new CANTalon(3); // 0
         LiveWindow.addActuator("Chassis", "frontLeft", chassisfrontLeft);
-        chassisbackLeft = new CANTalon(8);
+        chassisbackLeft = new CANTalon(4); // 8
         LiveWindow.addActuator("Chassis", "backLeft", chassisbackLeft);
-        chassisfrontRight = new CANTalon(2);
+        chassisfrontRight = new CANTalon(1); // 2
         LiveWindow.addActuator("Chassis", "frontRight", chassisfrontRight);
-        chassisbackRight = new CANTalon(3);
+        chassisbackRight = new CANTalon(2); // 3
         LiveWindow.addActuator("Chassis", "backRight", chassisbackRight);
 
         chassisRobotDrive41 = new RobotDrive(chassisfrontLeft, chassisbackLeft, chassisfrontRight, chassisbackRight);
@@ -79,7 +79,7 @@ public class RobotMap {
         armupperJoint = new CANTalon(6);
         LiveWindow.addActuator("Arm", "upperJoint", (CANTalon) armupperJoint);
 
-        intake = new CANTalon(5);
+        intake = new CANTalon(0); // 5 on real robot
         LiveWindow.addActuator("Intake", "intake", (CANTalon) intake);
         wheels = new CANTalon(7);
         LiveWindow.addActuator("Intake", "intake", (CANTalon) wheels);
@@ -90,5 +90,6 @@ public class RobotMap {
         LiveWindow.addActuator("Climber", "climber", (CANTalon) climber);
         climberExtender = new TalonSRX(0);
         LiveWindow.addActuator("Climber Extender", "climberExtender", (TalonSRX) climberExtender);
+    
     }
 }
