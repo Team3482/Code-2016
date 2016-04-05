@@ -44,17 +44,20 @@ public class AutonomousCommand extends CommandGroup {
         	if (SmartDashboard.getBoolean("Cheval de Fris")) {
 	        	//Robot.intake.setTargetPortcullis();
 	        //} else if(SmartDashboard.getBoolean("Low Bar")) {
-	        } else if(true) {
+	        } else if(SmartDashboard.getBoolean("Low Bar")) {
 	        	Robot.intake.setTargetLower();
 	        	addSequential(new Move(0.7, 0, 10000), 3.0);
+	        	//addSequential(new Rotate(60, false));
+	        	//addSequential(new Move(0.7, 0, 10000), 3.0);
+	        	
 	        } else if (SmartDashboard.getBoolean("Port Cullis")) {
 	        	//Robot.intake.setTargetPortcullis();
 	        	//addSequential(new Move(.7, 0, 5), 5.0);
 	        	//Robot.intake.setTargetRest();
 	        	//addSequential(new Move(.5, 0, 12));
 	        } //else if(SmartDashboard.getBoolean("GUN IT")) {
-	        else if(false) {
-	        	System.out.println("GUNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN");
+	        else if(SmartDashboard.getBoolean("GUN IT")) {
+	        	System.out.println("GUNNNNNN");
 	        	addSequential(new Move(1, 0, -1000), 2);
 	        }
         	

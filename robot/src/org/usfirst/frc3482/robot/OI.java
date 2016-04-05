@@ -15,7 +15,7 @@ public class OI {
     public JoystickButton armPositionBridgeButton;
     public JoystickButton lowerIntakeButton;
     public JoystickButton invertDirectionButton;
-    public JoystickButton armPositionPortButton;
+    public JoystickButton rotateClimberButton;
     public JoystickButton reverseFeedButton;
     public JoystickButton topJointButton;
     public JoystickButton bridgeButton;
@@ -83,20 +83,19 @@ public class OI {
         armHomeButton.whenPressed(new MoveIntake(false));
                 
   
-       	spinIntakeWheelsButton = new JoystickButton(joystick, 4);
+       	spinIntakeWheelsButton = new JoystickButton(joystick, 4); 
         spinIntakeWheelsButton.whileHeld(new SpinIntakeWheels());
 //        runWheelsOnGroundButton = new JoystickButton(joystick, 7);
 //        runWheelsOnGroundButton.whileHeld(new RunWheelsOnGround());
         //portcullisButton = new JoystickButton(joystick, 12);
         //portcullisButton.whileHeld(new ArmPositionPortCullis());
-        armRestButton = new JoystickButton(joystick, 8);
-        armRestButton.whenPressed(new ArmPositionRest());
         
-        //climberButton = new JoystickButton(joystick, 7);
-        //climberButton.whileHeld(new ClimbUp());
-        //extendClimberButton = new JoystickButton(joystick, 8);
-        //extendClimberButton.whileHeld(new ExtendClimber());
-        
+        climberButton = new JoystickButton(joystick, 7);
+        climberButton.whileHeld(new ClimbUp());
+        extendClimberButton = new JoystickButton(joystick, 9);
+        extendClimberButton.whileHeld(new ExtendClimber());
+        rotateClimberButton = new JoystickButton(joystick, 8);
+        rotateClimberButton.whileHeld(new RotateClimber());
                
         // SmartDashboard Buttons
         //SmartDashboard.putData("ArmPositionPort", new AutoSallyPort());

@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.TalonSRX;
 import edu.wpi.first.wpilibj.CANTalon.FeedbackDevice;
 import edu.wpi.first.wpilibj.CANTalon;
@@ -41,8 +42,9 @@ public class RobotMap {
     public static CANTalon intake;
     public static CANTalon wheels;
     public static Relay intakeFeed;
-    public static CANTalon climber;
-    public static TalonSRX climberExtender;
+    public static Talon climber;
+    public static Talon climberExtender;
+    public static Talon climberRotator;
     
     public static void init() {
     	//TODO: Initialize range finder
@@ -86,10 +88,12 @@ public class RobotMap {
         intakeFeed = new Relay(0);
         LiveWindow.addActuator("Intake", "intake", (Relay) intakeFeed);
 
-        climber = new CANTalon(9);
-        LiveWindow.addActuator("Climber", "climber", (CANTalon) climber);
-        climberExtender = new TalonSRX(0);
-        LiveWindow.addActuator("Climber Extender", "climberExtender", (TalonSRX) climberExtender);
+        climber = new Talon(0);
+        LiveWindow.addActuator("Climber", "climber", (Talon) climber);
+        climberExtender = new Talon(2);
+        LiveWindow.addActuator("Climber Extender", "climberExtender", (Talon) climberExtender);
+        climberRotator = new Talon(1);
+        LiveWindow.addActuator("Climber Rotator", "climberRotator", (Talon) climberRotator);
     
     }
 }
