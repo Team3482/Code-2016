@@ -53,7 +53,7 @@ public class OI {
         //runShooterButton = new JoystickButton(joystick, 2);
         //runShooterButton.whileHeld(new SpinShooter());
         shootButton = new JoystickButton(joystick, 1);
-        //shootButton.whenPressed(new SpinAndShoot());
+        shootButton.whenPressed(new SpinAndShoot());
         /*rotateTo0Button = new JoystickButton(xboxController, 4);
         rotateTo0Button.whenPressed(new Rotate(0, false));
         rotateTo90Button = new JoystickButton(xboxController, 2);
@@ -69,27 +69,27 @@ public class OI {
         invertDirectionButton = new JoystickButton(xboxController, 8);
         invertDirectionButton.whenPressed(new InvertDirection());
         holdSlopeButton = new JoystickButton(xboxController, 7);
-        //holdSlopeButton.whileHeld(new HoldSlope());
+        holdSlopeButton.whileHeld(new HoldSlope());
         
         
         autoShootButton = new JoystickButton(arcadeButtons, 2);
-        //autoShootButton.whenPressed(new AutoShoot());
+        autoShootButton.whenPressed(new AutoShoot());
         lowerIntakeWheelsButton = new JoystickButton(arcadeButtons, 3);
-        //lowerIntakeWheelsButton.whileHeld(new LowerIntake(true));
+        lowerIntakeWheelsButton.whileHeld(new LowerIntake(true));
         portcullisButton = new JoystickButton(arcadeButtons, 4);
-        //portcullisButton.whileHeld(new PortcullisIntake());
+        portcullisButton.whileHeld(new PortcullisIntake());
         lowerIntakeButton = new JoystickButton(arcadeButtons, 5);
-        //lowerIntakeButton.whileHeld(new LowerIntake(false));
+        lowerIntakeButton.whileHeld(new LowerIntake(false));
         reverseFeedButton = new JoystickButton(arcadeButtons, 10);
-        //reverseFeedButton.whileHeld(new FeedShooter(false));
+        reverseFeedButton.whileHeld(new FeedShooter(false));
         moveIntakeButton = new JoystickButton(arcadeButtons, 11);
-        //moveIntakeButton.whileHeld(new MoveIntake());
+        moveIntakeButton.whileHeld(new MoveIntake());
         moveIntakeWheelsButton = new JoystickButton(arcadeButtons, 12);
-        //moveIntakeWheelsButton.whileHeld(new MoveIntake(false));
+        moveIntakeWheelsButton.whileHeld(new MoveIntake(false));
                 
   
        	spinIntakeWheelsButton = new JoystickButton(joystick, 4); 
-        //spinIntakeWheelsButton.whileHeld(new SpinIntakeWheels());
+        spinIntakeWheelsButton.whileHeld(new SpinIntakeWheels());
 //        runWheelsOnGroundButton = new JoystickButton(joystick, 7);
 //        runWheelsOnGroundButton.whileHeld(new RunWheelsOnGround());
         //portcullisButton = new JoystickButton(joystick, 12);
@@ -106,9 +106,9 @@ public class OI {
         //SmartDashboard.putData("ArmPositionPort", new AutoSallyPort());
         //SmartDashboard.putData("ArmPositionBridge", new ArmPositionBridge());
         SmartDashboard.putData("InvertDirection", new InvertDirection());
-        //SmartDashboard.putData("LowerIntake", new LowerIntake(true));
-        //SmartDashboard.putData("SpinAndShoot", new SpinAndShoot());
-        //SmartDashboard.putData("Shoot", new Shoot());
+        SmartDashboard.putData("LowerIntake", new LowerIntake(true));
+        SmartDashboard.putData("SpinAndShoot", new SpinAndShoot());
+        SmartDashboard.putData("Shoot", new Shoot());
         SmartDashboard.putData("SpinShooter", new SpinShooter());
         //SmartDashboard.putBoolean("Low Bar", false);
         //SmartDashboard.putBoolean("Port Cullis", false);

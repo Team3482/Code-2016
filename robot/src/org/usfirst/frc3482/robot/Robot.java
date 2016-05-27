@@ -33,7 +33,7 @@ public class Robot extends IterativeRobot {
     public static Chassis chassis;
     public static Shooter shooter;
     public static Arm arm;
-    //public static Intake intake;
+    public static Intake intake;
     public static Climber climber;
     public static Camera camera;
     
@@ -53,7 +53,7 @@ public class Robot extends IterativeRobot {
         chassis = new Chassis();
         shooter = new Shooter();
         arm = new Arm();
-        //intake = new Intake();
+        intake = new Intake();
         climber = new Climber();
         camera = new Camera();
 
@@ -73,9 +73,9 @@ public class Robot extends IterativeRobot {
         //instantiate the command used for the autonomous and teleop period
         //autonomousCommand = new AutonomousCommand();
         autoChooser = new SendableChooser();
-        //autoChooser.addDefault("Gun It", new AutonomousGunIt());
-        //autoChooser.addObject("Low Bar No Shoot", new AutonomousLowBar());
-        //autoChooser.addObject("Low Bar Shoot", new AutonomousLowBarFull());
+        autoChooser.addDefault("Gun It", new AutonomousGunIt());
+        autoChooser.addObject("Low Bar No Shoot", new AutonomousLowBar());
+        autoChooser.addObject("Low Bar Shoot", new AutonomousLowBarFull());
         SmartDashboard.putData("Autonomous Mode Chooser", autoChooser);
         teleopCommand = new Drive();
     }
@@ -111,7 +111,7 @@ public class Robot extends IterativeRobot {
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
         
-        //Robot.intake.maintainPosition();
+        Robot.intake.maintainPosition();
 		//Robot.arm.maintainLowerJointPosition();
         //Robot.arm.maintainUpperJointPosition();
         //System.out.println(SmartDashboard.getBoolean("Low Bar"));
@@ -170,7 +170,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Target Angle", Robot.chassis.getTargetAngle());
         SmartDashboard.putNumber("Rotating Output", Robot.chassis.getOutput());
         SmartDashboard.putNumber("RangeFinder Voltage", Robot.chassis.getRangeFinderVoltage());
-        //Robot.intake.maintainPosition();
+        Robot.intake.maintainPosition();
         //System.out.println(SmartDashboard.getBoolean("Low Bar"));
         //Robot.arm.maintainLowerJointPosition();
         //Robot.arm.maintainUpperJointPosition();
