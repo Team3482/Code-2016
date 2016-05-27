@@ -53,6 +53,10 @@ public class Climber extends Subsystem {
 		double y = s.getAxis(AxisType.kY);
 		climberRotator.set(-y);
 	}
+    public void extendWithJoystick(Joystick s) {
+		double y = s.getAxis(AxisType.kY);
+		climberExtender.set(-y);
+	}
     
     public void rotateClimberCCW() {
     	climberRotator.set(-1);

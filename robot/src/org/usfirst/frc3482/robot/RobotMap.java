@@ -47,7 +47,6 @@ public class RobotMap {
     public static Talon climberRotator;
     
     public static void init() {
-    	//TODO: Initialize range finder
     	chassisRangeFinder = new AnalogInput(1);
         //LiveWindow.addSensor("Chassis", "rangeFinder", chassisrangeFinder);
         
@@ -58,13 +57,13 @@ public class RobotMap {
     	}
         LiveWindow.addSensor("IMU", "Gyro", chassisIMU);
         
-        chassisfrontLeft = new CANTalon(3); // 0
+        chassisfrontLeft = new CANTalon(0); // 0
         LiveWindow.addActuator("Chassis", "frontLeft", chassisfrontLeft);
-        chassisbackLeft = new CANTalon(4); // 8
+        chassisbackLeft = new CANTalon(8); // 8
         LiveWindow.addActuator("Chassis", "backLeft", chassisbackLeft);
-        chassisfrontRight = new CANTalon(1); // 2
+        chassisfrontRight = new CANTalon(2); // 2
         LiveWindow.addActuator("Chassis", "frontRight", chassisfrontRight);
-        chassisbackRight = new CANTalon(2); // 3
+        chassisbackRight = new CANTalon(3); // 3
         LiveWindow.addActuator("Chassis", "backRight", chassisbackRight);
 
         chassisRobotDrive41 = new RobotDrive(chassisfrontLeft, chassisbackLeft, chassisfrontRight, chassisbackRight);
@@ -81,7 +80,7 @@ public class RobotMap {
         armupperJoint = new CANTalon(6);
         LiveWindow.addActuator("Arm", "upperJoint", (CANTalon) armupperJoint);
 
-        intake = new CANTalon(0); // 5 on real robot
+        intake = new CANTalon(5); // 5 on real robot
         LiveWindow.addActuator("Intake", "intake", (CANTalon) intake);
         wheels = new CANTalon(7);
         LiveWindow.addActuator("Intake", "intake", (CANTalon) wheels);

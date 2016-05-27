@@ -46,6 +46,7 @@ public class Chassis extends Subsystem implements PIDOutput {
     double driveWheelDiameter = 8; //inches
     double driveWheelCircumference = driveWheelDiameter*Math.PI;
     double driveWheelGearRatio = 12.75;
+    double driveWheelDistance = 24;
     double rotateToAngleRate;
     double maxTurningSpeed = .75;
     
@@ -371,6 +372,23 @@ public class Chassis extends Subsystem implements PIDOutput {
 		//move(0.0,0.0);
 	}
 	
+	public void rotateByEncoder(double speed, double targetRotations) {
+		double rotationsL = backLeft.getPosition();
+		double error = (targetRotations - rotationsL);
+		System.out.println("error: " + error);
+		setUpPID();
+//		if (Math.abs(error) <= 0.5)
+//			speed *= error*2;
+		if (Math.abs(error) < 0.025)
+			move(0.0, 0.0);
+		else if (error > 0)
+			move(0.0, speed);
+		else if (error < 0)
+			move(0.0, -speed);
+		else
+			move(0.0, 0.0);
+	}
+	
 	public double getRangeFinderVoltage() {
 		return rangeFinder.getAverageVoltage();
 	}
@@ -380,7 +398,7 @@ public class Chassis extends Subsystem implements PIDOutput {
 		enableRotation();
 		double currentVoltage = rangeFinder.getAverageVoltage();
 		//double estimateCurrentInches = transferFunctionLUT5V[rangeFinder.getValue()/4/4];
-		double error = (targetDistanceVoltage - currentVoltage);
+		double error = (targetDistanceVoltage+(Robot.oi.getJoystick().getAxis(Joystick.AxisType.kThrottle)*.05) - currentVoltage);
 		System.out.println("error: " + error);
 		rotateController.setSetpoint(degrees);
 		setUpPID();
@@ -405,6 +423,11 @@ public class Chassis extends Subsystem implements PIDOutput {
 	//inches to rotations
 	public double distanceToTargetRotations(double distance) {
 		return distance/driveWheelCircumference + backLeft.getPosition();
+	}
+	
+	//angle to rotations
+	public double angleToTargetRotations(double angle) {
+		return (driveWheelDistance*Math.PI)*(angle/360)/driveWheelCircumference+backLeft.getPosition();
 	}
 	
 	public void resetGyro() {

@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import java.io.IOException;
@@ -32,13 +33,15 @@ public class Robot extends IterativeRobot {
     public static Chassis chassis;
     public static Shooter shooter;
     public static Arm arm;
-    public static Intake intake;
+    //public static Intake intake;
     public static Climber climber;
     public static Camera camera;
     
     //private static final NetworkTable grip = NetworkTable.getTable("grip");
     public static double targetCenterX;
     public static double targetCenterY;
+    
+    public static SendableChooser autoChooser;
     
     
     /**
@@ -50,7 +53,7 @@ public class Robot extends IterativeRobot {
         chassis = new Chassis();
         shooter = new Shooter();
         arm = new Arm();
-        intake = new Intake();
+        //intake = new Intake();
         climber = new Climber();
         camera = new Camera();
 
@@ -68,7 +71,12 @@ public class Robot extends IterativeRobot {
         }*/
         
         //instantiate the command used for the autonomous and teleop period
-        autonomousCommand = new AutonomousCommand();
+        //autonomousCommand = new AutonomousCommand();
+        autoChooser = new SendableChooser();
+        //autoChooser.addDefault("Gun It", new AutonomousGunIt());
+        //autoChooser.addObject("Low Bar No Shoot", new AutonomousLowBar());
+        //autoChooser.addObject("Low Bar Shoot", new AutonomousLowBarFull());
+        SmartDashboard.putData("Autonomous Mode Chooser", autoChooser);
         teleopCommand = new Drive();
     }
 
@@ -84,14 +92,17 @@ public class Robot extends IterativeRobot {
         Scheduler.getInstance().run();
     	//System.out.println(Robot.chassis.rangeFinder.getAverageVoltage());
         //System.out.println(Robot.chassis.imu.getYaw());
+        //System.out.println("Intake Offset: "+Robot.intake.getIntakeOffset());
     }
 
     public void autonomousInit() {
         // schedule the autonomous command (example)
+    	System.out.println("AUTO INIT");
+    	autonomousCommand = (Command) autoChooser.getSelected();
         if (autonomousCommand != null) autonomousCommand.start();
-        Robot.chassis.resetGyro();
-        Robot.arm.setLowerRest();
-        Robot.arm.setUpperHome();
+        //Robot.chassis.resetGyro();
+        //Robot.arm.setLowerRest();
+        //Robot.arm.setUpperHome();
     }
 
     /**
@@ -100,10 +111,10 @@ public class Robot extends IterativeRobot {
     public void autonomousPeriodic() {
         Scheduler.getInstance().run();
         
-        Robot.intake.maintainPosition();
-		Robot.arm.maintainLowerJointPosition();
-        Robot.arm.maintainUpperJointPosition();
-        
+        //Robot.intake.maintainPosition();
+		//Robot.arm.maintainLowerJointPosition();
+        //Robot.arm.maintainUpperJointPosition();
+        //System.out.println(SmartDashboard.getBoolean("Low Bar"));
         /*int index = -1;
         double maxArea = -1;
         double[] areas = grip.getNumberArray("targets/area", new double[0]);
@@ -160,8 +171,9 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Rotating Output", Robot.chassis.getOutput());
         SmartDashboard.putNumber("RangeFinder Voltage", Robot.chassis.getRangeFinderVoltage());
         //Robot.intake.maintainPosition();
-        Robot.arm.maintainLowerJointPosition();
-        Robot.arm.maintainUpperJointPosition();
+        //System.out.println(SmartDashboard.getBoolean("Low Bar"));
+        //Robot.arm.maintainLowerJointPosition();
+        //Robot.arm.maintainUpperJointPosition();
         //System.out.println(Robot.chassis.imu.getYaw());
     }
 

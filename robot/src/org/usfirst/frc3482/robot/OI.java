@@ -14,7 +14,9 @@ import org.usfirst.frc3482.robot.subsystems.*;
 public class OI {
     public JoystickButton armPositionBridgeButton;
     public JoystickButton lowerIntakeButton;
+    public JoystickButton lowerIntakeWheelsButton;
     public JoystickButton invertDirectionButton;
+    public JoystickButton runShooterButton;
     public JoystickButton rotateClimberButton;
     public JoystickButton reverseFeedButton;
     public JoystickButton topJointButton;
@@ -25,7 +27,7 @@ public class OI {
     public JoystickButton sallyPortButton;
     public JoystickButton portcullisButton;
     public JoystickButton armRestButton;
-    public JoystickButton armHomeButton;
+    public JoystickButton moveIntakeWheelsButton;
     public JoystickButton climberButton;
     public JoystickButton extendClimberButton;
     public JoystickButton rotateTo0Button;
@@ -37,7 +39,7 @@ public class OI {
     public JoystickButton rotate360Button;
     public JoystickButton holdSlopeButton;
     public JoystickButton autoShootButton;
-    
+    public JoystickButton shootButton;
     
     public Joystick xboxController;
     public Joystick joystick;
@@ -48,8 +50,11 @@ public class OI {
         joystick = new Joystick(1);
         arcadeButtons = new Joystick(2); //2,3,4,5 and 10,11,12,13
         
-        
-        rotateTo0Button = new JoystickButton(xboxController, 4);
+        //runShooterButton = new JoystickButton(joystick, 2);
+        //runShooterButton.whileHeld(new SpinShooter());
+        shootButton = new JoystickButton(joystick, 1);
+        //shootButton.whenPressed(new SpinAndShoot());
+        /*rotateTo0Button = new JoystickButton(xboxController, 4);
         rotateTo0Button.whenPressed(new Rotate(0, false));
         rotateTo90Button = new JoystickButton(xboxController, 2);
         rotateTo90Button.whenPressed(new Rotate(90, false));
@@ -60,35 +65,35 @@ public class OI {
         rotateTo45Button = new JoystickButton(xboxController, 6);
         rotateTo45Button.whenPressed(new Rotate(45, false));
         rotateTo315Button = new JoystickButton(xboxController, 5);
-        rotateTo315Button.whenPressed(new Rotate(-45, false));
+        rotateTo315Button.whenPressed(new Rotate(-45, false));*/
         invertDirectionButton = new JoystickButton(xboxController, 8);
         invertDirectionButton.whenPressed(new InvertDirection());
         holdSlopeButton = new JoystickButton(xboxController, 7);
-        holdSlopeButton.whileHeld(new HoldSlope());
+        //holdSlopeButton.whileHeld(new HoldSlope());
         
         
         autoShootButton = new JoystickButton(arcadeButtons, 2);
-        autoShootButton.whenPressed(new AutoShoot());
-        sallyPortButton = new JoystickButton(arcadeButtons, 3);
-        sallyPortButton.whenPressed(new ArmPositionSally());
-        lowerIntakeButton = new JoystickButton(arcadeButtons, 4);
-        lowerIntakeButton.toggleWhenPressed(new LowerIntake());
-        reverseFeedButton = new JoystickButton(arcadeButtons, 5);
-        reverseFeedButton.whileHeld(new FeedShooter(false));
-        moveIntakeButton = new JoystickButton(arcadeButtons, 10);
-        moveIntakeButton.whileHeld(new MoveIntake());
-        bridgeButton = new JoystickButton(arcadeButtons, 11);
-        bridgeButton.whenPressed(new AutoDrawbridge());
-        armHomeButton = new JoystickButton(arcadeButtons, 12);
-        armHomeButton.whenPressed(new MoveIntake(false));
+        //autoShootButton.whenPressed(new AutoShoot());
+        lowerIntakeWheelsButton = new JoystickButton(arcadeButtons, 3);
+        //lowerIntakeWheelsButton.whileHeld(new LowerIntake(true));
+        portcullisButton = new JoystickButton(arcadeButtons, 4);
+        //portcullisButton.whileHeld(new PortcullisIntake());
+        lowerIntakeButton = new JoystickButton(arcadeButtons, 5);
+        //lowerIntakeButton.whileHeld(new LowerIntake(false));
+        reverseFeedButton = new JoystickButton(arcadeButtons, 10);
+        //reverseFeedButton.whileHeld(new FeedShooter(false));
+        moveIntakeButton = new JoystickButton(arcadeButtons, 11);
+        //moveIntakeButton.whileHeld(new MoveIntake());
+        moveIntakeWheelsButton = new JoystickButton(arcadeButtons, 12);
+        //moveIntakeWheelsButton.whileHeld(new MoveIntake(false));
                 
   
        	spinIntakeWheelsButton = new JoystickButton(joystick, 4); 
-        spinIntakeWheelsButton.whileHeld(new SpinIntakeWheels());
+        //spinIntakeWheelsButton.whileHeld(new SpinIntakeWheels());
 //        runWheelsOnGroundButton = new JoystickButton(joystick, 7);
 //        runWheelsOnGroundButton.whileHeld(new RunWheelsOnGround());
         //portcullisButton = new JoystickButton(joystick, 12);
-        //portcullisButton.whileHeld(new ArmPositionPortCullis());
+        //portcullisButto n.whileHeld(new ArmPositionPortCullis());
         
         climberButton = new JoystickButton(joystick, 7);
         climberButton.whileHeld(new ClimbUp());
@@ -101,23 +106,23 @@ public class OI {
         //SmartDashboard.putData("ArmPositionPort", new AutoSallyPort());
         //SmartDashboard.putData("ArmPositionBridge", new ArmPositionBridge());
         SmartDashboard.putData("InvertDirection", new InvertDirection());
-        SmartDashboard.putData("LowerIntake", new LowerIntake());
-        SmartDashboard.putData("SpinAndShoot", new SpinAndShoot());
-        SmartDashboard.putData("Shoot", new Shoot());
+        //SmartDashboard.putData("LowerIntake", new LowerIntake(true));
+        //SmartDashboard.putData("SpinAndShoot", new SpinAndShoot());
+        //SmartDashboard.putData("Shoot", new Shoot());
         SmartDashboard.putData("SpinShooter", new SpinShooter());
-        SmartDashboard.putBoolean("Low Bar", false);
-        SmartDashboard.putBoolean("Port Cullis", false);
-        SmartDashboard.putBoolean("Sally Port", false);
-        SmartDashboard.putBoolean("Cheval de Fris", false);
-        SmartDashboard.putBoolean("Waiting", false);
-        SmartDashboard.putBoolean("GUN IT", false);
-        SmartDashboard.putNumber("Position", 1);
+        //SmartDashboard.putBoolean("Low Bar", false);
+        //SmartDashboard.putBoolean("Port Cullis", false);
+        //SmartDashboard.putBoolean("Sally Port", false);
+        //SmartDashboard.putBoolean("Cheval de Fris", false);
+        //SmartDashboard.putBoolean("Waiting", false);
+        //SmartDashboard.putBoolean("GUN IT", false);
+        //SmartDashboard.putNumber("Position", 1);
         SmartDashboard.putNumber("Maximum Turn Output", 0.8);
         SmartDashboard.putNumber("Gyro P", 0.01);
         SmartDashboard.putNumber("Gyro I", 0.001);
         SmartDashboard.putNumber("Gyro D", 0.0);
         //SmartDashboard.putData("Move", new Move());
-        SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
+        //SmartDashboard.putData("Autonomous Command", new AutonomousCommand());
         SmartDashboard.putData("Drive", new Drive());
     }
 

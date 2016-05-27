@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Camera extends Subsystem {
 
-	//private CameraServer server;
+	private CameraServer server;
 	private double tilt = Math.toRadians(31);			//check
 	private double hT = 7*12+1;							//check
 	private double hc = 14	;							//check
@@ -24,10 +24,10 @@ public class Camera extends Subsystem {
 	private double h = hT-hc;
 	
     public Camera() {
-    	//server = CameraServer.getInstance();
-        //server.setQuality(100); //was 50
+    	server = CameraServer.getInstance();
+        server.setQuality(100); //was 50
         //the camera name (ex "cam0") can be found through the roborio web interface
-        //server.startAutomaticCapture("cam0");
+        server.startAutomaticCapture("cam0");
     }
     
     public double targetAngleOffset() {

@@ -38,20 +38,27 @@ public class Move extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if(voltage == -1) {
+    	if(voltage == -1 && rotateValue == 0) {
 	    	desiredAngle = Robot.chassis.getCurrentAngle();
 	    	if(moveValue < 0 && distance > 0) {
 	    		distance = -distance;
 	    	}
 	    	rotations = Robot.chassis.distanceToTargetRotations(distance);
+    	} else if(voltage == -1 && distance == 0) {
+	    	if(moveValue < 0 && rotateValue > 0) {
+	    		rotateValue = -rotateValue;
+	    	}
+	    	rotations = Robot.chassis.angleToTargetRotations(rotateValue);
     	}
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(voltage == -1) {
-	    	System.out.println("Straight line at " + desiredAngle + "degrees");
+    	if(voltage == -1 && rotateValue == 0) {
+	    	//System.out.println("Straight line at " + desiredAngle + "degrees");
 	    	Robot.chassis.moveStraight(moveValue, rotations, desiredAngle);
+    	} else if(voltage == -1 && distance == 0) {
+	    	Robot.chassis.rotateByEncoder(moveValue, rotations);
     	} else {
     		Robot.chassis.maintainDistanceVoltage(voltage, 0, acceptableError, false);
     	}
